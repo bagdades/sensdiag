@@ -1146,6 +1146,32 @@ MyFrame::MyFrame( wxWindow* parent )
 	if(adapter) m_checkBoxAdapter->SetValue(TRUE);
 	else m_checkBoxAdapter->SetValue(false);
 	LoadEBC();
+	if( carType == 0 )
+	{
+		wxMessageDialog* dlg = new wxMessageDialog(NULL, wxT("Деякі блоки автоматично не визначаються.\nЯкщо ви знаєте тип ЕБК, виберіть його вручну."), wxT("Message."), wxOK);
+		dlg->ShowModal();
+	}
+	timerPeriod = 200;
+	sysTimerPeriod = 500;
+	ScanPort();
+	outData = new char[512];
+	inData = new char[512];
+	inDataCount = 0;
+	outDataCount = 0;
+	dataOkCount = 0;
+	dataOk = FALSE;
+	uprVar = 0;
+	uprZap = FALSE;
+	uprData = 0;
+	uprSend = FALSE;
+	resetError = FALSE;
+	uprClose = FALSE;
+	idZapros = 0;
+	inStr = "";
+	init = FALSE;
+	m_statusBar->SetStatusText(_("EBC: ") + m_comboBoxSelectEBC->GetValue(), 0);
+	m_statusBar->SetStatusText(_("Port: ") + m_comboBoxSelectPort->GetValue(), 1);
+	m_timerSystem.Start(sysTimerPeriod, wxTIMER_CONTINUOUS);
 }
 
 void MyFrame::OnClose( wxCloseEvent& event )
@@ -1163,15 +1189,68 @@ void MyFrame::OnClose( wxCloseEvent& event )
 
 void MyFrame::OnStart( wxCommandEvent& event )
 {
+	int check = 0;
+	// MyPort serialPort;
 	if( m_buttonStart->GetLabel() == wxT("Start") )
 	{
+		wxString portName = m_comboBoxSelectPort->GetValue();
+		if( adapter > 0 )
+		{
+			check = serialPort.Open(portName, 1115000);
+			init = TRUE;
+		}
+		else
+		{
+			if( carType > 12 )
+			{
+				check = serialPort.Open(portName, 8192);
+				init = FALSE;
+			}
+			else
+			{
+				check = serialPort.Open(portName, 10400);
+				init = TRUE;
+				timerPeriod = 50;
+			}
+		}
+		if( check < 0 )
+		{
+			wxMessageDialog* dlg = new wxMessageDialog(NULL, wxT("Port busy or not present.\nPlease select enother port."), wxT("Message."), wxOK);
+			dlg->ShowModal();
+			return;
+		}
 		m_buttonStart->SetLabel(wxT("Stop"));
 		m_menuItemFileStart->SetItemLabel(wxT("Stop"));
+		m_timer1.Start(timerPeriod, wxTIMER_ONE_SHOT);
+		m_comboBoxSelectEBC->Disable();
+		m_comboBoxSelectPort->Disable();
+		m_buttonScanPort->Disable();
+		m_checkBoxAdapter->Disable();
+		m_checkBoxLog->Disable();
+		if( m_comboBoxControl->GetSelection() != 0 && m_notebook2->GetSelection() == 0 )
+		{
+			m_buttonControlPlus->Enable();
+			m_buttonControlMinus->Enable();
+		}
+		else
+		{
+			m_buttonControlPlus->Disable();
+			m_buttonControlMinus->Disable();
+		}
 	}
 	else
 	{
 		m_buttonStart->SetLabel(wxT("Start"));
 		m_menuItemFileStart->SetItemLabel(wxT("Start"));
+		m_timer1.Stop();
+		m_comboBoxSelectEBC->Enable();
+		m_comboBoxSelectPort->Enable();
+		m_buttonScanPort->Enable();
+		m_checkBoxAdapter->Enable();
+		m_checkBoxLog->Enable();
+		serialPort.Close();
+		m_buttonControlPlus->Disable();
+		m_buttonControlMinus->Disable();
 	}
 }
 
@@ -1180,10 +1259,31 @@ void MyFrame::OnExit( wxCommandEvent& event )
 	Close();
 }
 
+void MyFrame::OnSaveLog( wxCommandEvent& event )
+{
+	wxFileDialog* dlg = new wxFileDialog(this, wxT("Save log"), wxT("File"), 
+			wxT(""), wxT("*.*"), wxFD_SAVE);
+	dlg->ShowModal();
+}
+
 void MyFrame::OnAbout( wxCommandEvent& event )
 {
 	wxMessageDialog* dlg = new wxMessageDialog(NULL, wxT("Programm for testing EBC vehicle.\nBy Vovan."), _("About."), wxOK);
 	dlg->ShowModal();
+}
+
+void MyFrame::OnPageChange( wxNotebookEvent& event )
+{
+	if( m_comboBoxControl->GetSelection() != 0 && m_notebook2->GetSelection() == 0 && serialPort.IsOpen() )
+	{
+		m_buttonControlPlus->Enable();
+		m_buttonControlMinus->Enable();
+	}
+	else
+	{
+		m_buttonControlPlus->Disable();
+		m_buttonControlMinus->Disable();
+	}
 }
 
 void MyFrame::OnResetError( wxCommandEvent& event )
@@ -1192,15 +1292,46 @@ void MyFrame::OnResetError( wxCommandEvent& event )
 	resetError = TRUE;
 }
 
+void MyFrame::OnComboboxSelectControl( wxCommandEvent& event )
+{
+	if( m_comboBoxControl->GetSelection() != 0 && m_notebook2->GetSelection() == 0 && serialPort.IsOpen() )
+	{
+		m_buttonControlPlus->Enable();
+		m_buttonControlMinus->Enable();
+	}
+	else
+	{
+		m_buttonControlPlus->Disable();
+		m_buttonControlMinus->Disable();
+	}
+}
+
+void MyFrame::OnClickControlPlus( wxCommandEvent& event )
+{
+	// TODO: Implement OnClickControlPlus
+}
+
+void MyFrame::OnClickContolMinus( wxCommandEvent& event )
+{
+	// TODO: Implement OnClickContolMinus
+}
+
 void MyFrame::OnSelectEBC( wxCommandEvent& event )
 {
 	carType = m_comboBoxSelectEBC->GetSelection();
+	m_statusBar->SetStatusText(_("EBC: ") + m_comboBoxSelectEBC->GetValue(), 0);
 	LoadEBC();
 }
 
 void MyFrame::OnSelectPort( wxCommandEvent& event )
 {
 	ioPort = m_comboBoxSelectPort->GetSelection();
+	m_statusBar->SetStatusText(_("Port: ") + m_comboBoxSelectPort->GetValue(), 1);
+}
+
+void MyFrame::OnScanPort( wxCommandEvent& event )
+{
+	ScanPort();
 }
 
 void MyFrame::OnCheckAdapter( wxCommandEvent& event )
@@ -1215,6 +1346,97 @@ void MyFrame::OnCheckLogProtocol( wxCommandEvent& event )
 	// TODO: Implement OnCheckLogProtocol
 }
 
+void MyFrame::OnTimerTick( wxTimerEvent& event )
+{
+	// TODO: Implement OnTimerTick
+}
+
+void MyFrame::OnSysTimerTick( wxTimerEvent& event )
+{
+	wxDateTime now = wxDateTime::Now();
+	now.SetCountry(wxDateTime::UK);
+	wxString date;
+	date = now.Format(wxT("%X"));
+	m_statusBar->SetStatusText(date,3);
+}
+
+
+void MyFrame::ScanPort(void)
+{
+	int n;
+	MyPort serialPort;
+	wxArrayString strArr;
+	strArr = serialPort.GetComList();
+	m_comboBoxSelectPort->Clear();
+	n = strArr.GetCount();
+	if( n == 0 )
+	{
+		wxMessageDialog* dlg = new  wxMessageDialog(NULL, _("In system not present serial port."), _("Warning."), wxOK);
+		dlg->ShowModal();
+		return;
+	}
+	else
+	{
+		for( int i = 0 ; i < n ; i++ )
+		{
+			m_comboBoxSelectPort->Append(strArr.Item(i));
+		}
+		m_comboBoxSelectPort->SetSelection(0);
+	}
+}
+
+void MyFrame::SaveSetting(void)
+{
+	wxFile* file = new wxFile;
+	datBuf = new char;
+	file->Create("sensdiag.dat",TRUE);
+	if( file->IsOpened() )
+	{
+		for( int i = 0 ; i < 16 ; i++ )
+		{
+			for( int j = 1 ; j < 17 ; j++ )
+			{
+				if( i < 1 )
+				{
+					if( j == 1 )
+					{
+						datBuf[0] = (char)carType;
+						file->Write(datBuf, 1);
+					}
+					else
+					{
+						if( j == 15 )
+						{
+							datBuf[0] = (char)adapter;
+							file->Write(datBuf, 1);
+						}
+						else
+						{
+							if( j == 16 )
+							{
+								datBuf[0] = (char)ioPort;
+								file->Write(datBuf, 1);
+							}
+							else
+							{
+								datBuf[0] = (char)dataGraph[j - 1];
+								file->Write(datBuf, 1);
+							}
+						}
+					}
+				}
+				else
+				{
+					datBuf[0] = (char)dataSet[i][j];
+					file->Write(datBuf, 1);
+				}
+			}
+		}
+	}
+	file->Close();
+	delete file;
+	delete datBuf;
+}
 
 void MyFrame::LoadEBC(void)
 {
@@ -1287,57 +1509,319 @@ void MyFrame::LoadEBC(void)
 	m_staticTextID8->SetLabel(_(""));
 }
 
-void MyFrame::SaveSetting(void)
+void MyFrame::DataShow()
 {
-	wxFile* file = new wxFile;
-	datBuf = new char;
-	file->Create("sensdiag.dat",TRUE);
-	if( file->IsOpened() )
+	wxString str;
+	switch((int)paramCoef[carType][dataSet[carType][1]][4])
 	{
-		for( int i = 0 ; i < 16 ; i++ )
-		{
-			for( int j = 1 ; j < 17 ; j++ )
-			{
-				if( i < 1 )
-				{
-					if( j == 1 )
-					{
-						datBuf[0] = (char)carType;
-						file->Write(datBuf, 1);
-					}
-					else
-					{
-						if( j == 15 )
-						{
-							datBuf[0] = (char)adapter;
-							file->Write(datBuf, 1);
-						}
-						else
-						{
-							if( j == 16 )
-							{
-								datBuf[0] = (char)ioPort;
-								file->Write(datBuf, 1);
-							}
-							else
-							{
-								datBuf[0] = (char)dataGraph[j - 1];
-								file->Write(datBuf, 1);
-							}
-						}
-					}
-				}
-				else
-				{
-					datBuf[0] = (char)dataSet[i][j];
-					file->Write(datBuf, 1);
-				}
-			}
-		}
+		case 1: str.Format("%1f", data[1]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[1]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[1]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
 	}
-	file->Close();
-	delete file;
-	delete datBuf;
+	switch((int)paramCoef[carType][dataSet[carType][2]][4])
+	{
+		case 1: str.Format("%1f", data[2]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[2]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[2]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][3]][4])
+	{
+		case 1: str.Format("%1f", data[3]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[3]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[3]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][4]][4])
+	{
+		case 1: str.Format("%1f", data[4]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[4]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[4]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][5]][4])
+	{
+		case 1: str.Format("%1f", data[5]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[5]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[5]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][6]][4])
+	{
+		case 1: str.Format("%1f", data[6]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[6]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[6]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][7]][4])
+	{
+		case 1: str.Format("%1f", data[7]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[7]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[7]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][8]][4])
+	{
+		case 1: str.Format("%1f", data[8]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[8]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[8]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][9]][4])
+	{
+		case 1: str.Format("%1f", data[9]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[9]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[9]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][10]][4])
+	{
+		case 1: str.Format("%1f", data[10]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[10]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[10]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][11]][4])
+	{
+		case 1: str.Format("%1f", data[11]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[11]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[11]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][12]][4])
+	{
+		case 1: str.Format("%1f", data[12]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[12]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[12]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][13]][4])
+	{
+		case 1: str.Format("%1f", data[13]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[13]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[13]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][14]][4])
+	{
+		case 1: str.Format("%1f", data[14]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[14]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[14]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][15]][4])
+	{
+		case 1: str.Format("%1f", data[15]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[15]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[15]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
+	switch((int)paramCoef[carType][dataSet[carType][16]][4])
+	{
+		case 1: str.Format("%1f", data[16]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		case 2: str.Format("%2f", data[16]);
+				m_staticText_Dat1->SetLabel(str);
+				break;
+		default: str.Format("%f", data[16]);
+				 m_staticText_Dat1->SetLabel(str);
+				 break;
+	}
 }
 
+void MyFrame::TimerShow()
+{
+	wxString str;
+	if( timerAddr[carType][0][0] > 0 )
+	{
+		switch((int)timerCoef[carType][1][4])
+		{
+			case 1: str.Format("%1f", timer[1]);
+					m_staticText_T1->SetLabel(str);
+					break;
+			case 2: str.Format("%2f", timer[1]);
+					m_staticText_T1->SetLabel(str);
+					break;
+			default:str.Format("%f", timer[1]);
+					m_staticText_T1->SetLabel(str);
+					break;
+		}
+	}
+	else
+		m_staticText_T1->SetLabel(wxT(""));
+	if( timerAddr[carType][0][0] > 1 )
+	{
+		switch((int)timerCoef[carType][2][4])
+		{
+			case 1: str.Format("%1f", timer[2]);
+					m_staticText_T2->SetLabel(str);
+					break;
+			case 2: str.Format("%2f", timer[2]);
+					m_staticText_T2->SetLabel(str);
+					break;
+			default:str.Format("%f", timer[2]);
+					m_staticText_T2->SetLabel(str);
+					break;
+		}
+	}
+	else
+		m_staticText_T2->SetLabel(wxT(""));
+	if( timerAddr[carType][0][0] > 2 )
+	{
+		switch((int)timerCoef[carType][3][4])
+		{
+			case 1: str.Format("%1f", timer[3]);
+					m_staticText_T3->SetLabel(str);
+					break;
+			case 2: str.Format("%2f", timer[3]);
+					m_staticText_T3->SetLabel(str);
+					break;
+			default:str.Format("%f", timer[3]);
+					m_staticText_T3->SetLabel(str);
+					break;
+		}
+	}
+	else
+		m_staticText_T3->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 3){ str.Format("%f", timer[4]); m_staticText_T4->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 4){ str.Format("%f", timer[5]); m_staticText_T5->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 5){ str.Format("%f", timer[6]); m_staticText_T6->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 6){ str.Format("%f", timer[7]); m_staticText_T7->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 7){ str.Format("%f", timer[8]); m_staticText_T8->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 8){ str.Format("%f", timer[9]); m_staticText_T9->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 9){ str.Format("%f", timer[10]); m_staticText_T10->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 10){ str.Format("%f", timer[11]); m_staticText_T11->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 11){ str.Format("%f", timer[12]); m_staticText_T12->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 12){ str.Format("%f", timer[13]); m_staticText_T13->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 13){ str.Format("%f", timer[14]); m_staticText_T14->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 14){ str.Format("%f", timer[15]); m_staticText_T15->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+	if(timerAddr[carType][0][0] > 15){ str.Format("%f", timer[16]); m_staticText_T16->SetLabel(str);}
+	else m_staticText_T4->SetLabel(wxT(""));
+}
+
+void MyFrame::AnalogShow()
+{
+	if(analogAddr[carType][0][0] > 0)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[1]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 1)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[2]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 2)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[3]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 3)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[4]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 4)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[5]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 5)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[6]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 6)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[7]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 7)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[8]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 8)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[9]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 9)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[10]));
+	else m_staticText_An1->SetLabelText("");
+	if(analogAddr[carType][0][0] > 10)
+		m_staticText_An1->SetLabel(wxString::Format("%3f", analog[11]));
+	else m_staticText_An1->SetLabelText("");
+}
 
