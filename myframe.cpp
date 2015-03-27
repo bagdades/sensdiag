@@ -1210,7 +1210,8 @@ void MyFrame::OnStart( wxCommandEvent& event )
 			{
 				check = serialPort.Open(portName, 10400);
 				init = TRUE;
-				timerPeriod = 50;
+				timerPeriod = 200;
+				// timerPeriod = 50;
 			}
 		}
 		if( check < 0 )
@@ -1348,7 +1349,118 @@ void MyFrame::OnCheckLogProtocol( wxCommandEvent& event )
 
 void MyFrame::OnTimerTick( wxTimerEvent& event )
 {
-	// TODO: Implement OnTimerTick
+	int inDB = 0;
+	if( serialPort.IsOpen() == TRUE )
+	{
+           /* Read serial port and check crc */
+		int cb = 0;
+		char b = 0;
+		cb = serialPort.BytesToRead();
+		if( cb > 0 )
+		{
+			for( int i = 0 ; i <= cb ; i++ )
+			{
+				inData[inDataCount] = (char)serialPort.ReadByte();
+				if( !(inDataCount == 0 && inData[inDataCount] != outData[0] ))
+				{
+					inDataCount++;
+					if( carType > 12 )
+					{
+						if( inDataCount > (outDataCount + 1) )
+						{
+							b = (char)(inData[outDataCount + 1] - 85);
+							if( (inDataCount - outDataCount) == (b + 3) )
+							{
+								dataOk = TRUE;
+							}
+						}
+					}
+					else
+					{
+						if( inDataCount > outDataCount )
+						{
+							b = inData[outDataCount];
+							b -= 0x80;
+							if(b == 0)
+								b = (char)(inData[outDataCount + 3] + 1);
+							if( (inDataCount - outDataCount) == (b + 4))
+							{
+								b = 0;
+								for( int j = outDataCount ; j < (inDataCount - 1) ; j++ )
+								{
+									b += inData[j];
+								}
+								if(b == inData[inDataCount - 1])
+									dataOk = TRUE;
+							}
+						}
+					}
+				}
+			}
+		}
+		if( m_timer1.GetInterval() == 200 )
+		{
+			if( dataOk == TRUE && outDataCount > 0 )
+			{
+				init = FALSE;
+				dataOk = FALSE;
+				if( carType > 12 )
+				{
+					//TODO
+				}
+				else
+				{
+					char b = inData[outDataCount];
+					b -= 0x80;
+					if( b == 0)
+						b = inData[outDataCount + 3];
+					inDB = inDataCount - 1 - b;
+					if( carType == 0 && inData[inDB] != 0x7F )
+					{
+						for( int i = 1 ; i < 13 ; i++ )
+						{
+							if(paramAddr[i][0][1] == (inDataCount - outDataCount))
+								carType = i;
+						}
+						if( carType == 0 )
+						{
+							wxString str;
+							str.Printf("%i", (inDataCount - outDataCount));
+							wxMessageBox("Ваш ЕБК не впізнано, виберіть тип вручну. Код - " + 
+									str);
+						}
+						else
+						{
+							LoadEBC();
+							wxString En = "";
+							switch ( carType )
+							{
+								case 1 : En = "M1.5.4 or Januery5"; break;
+								case 2 : En = "M1.5.4(N) or Januery5(E2)"; break;
+								case 3 : En = "Mikas 10,3"; break;
+								case 4 : En = "Mikas 7.6"; break;
+								case 5 : En = "Mikas 11(E2)"; break;
+								case 6 : En = "Mikas 11(E3)"; break;
+								case 7 : En = "M7.9.7(E2)"; break;
+								case 8 : En = "M7.9.7(E3)"; break;
+								case 9 : En = "Januery 7.X"; break;
+								case 10 : En = "ME1 7.9.7"; break;
+								case 11 : En = "MP 7.0 (E2)"; break;
+								case 12 : En = "MP 7.0 (E3)"; break;
+							}
+						wxMessageBox("Ваш ЕБК розпізнано як: " + En);
+						}
+					}
+					else
+					{
+						if( m_notebook2->GetSelection() == 1 ) /* Page 1 */
+						{
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void MyFrame::OnSysTimerTick( wxTimerEvent& event )
