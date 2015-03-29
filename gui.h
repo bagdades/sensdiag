@@ -180,7 +180,6 @@ class MyFrameBase : public wxFrame
 		wxCheckBox* m_checkBoxAdapter;
 		wxCheckBox* m_checkBoxLog;
 		wxButton* m_buttonStart;
-		wxTimer m_timerSystem;
 		wxTimer m_timerWork;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -199,7 +198,6 @@ class MyFrameBase : public wxFrame
 		virtual void OnScanPort( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCheckAdapter( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCheckLogProtocol( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnSysTimerTick( wxTimerEvent& event ) { event.Skip(); }
 		virtual void OnTimerTick( wxTimerEvent& event ) { event.Skip(); }
 		
 	

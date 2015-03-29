@@ -830,7 +830,6 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	this->SetSizer( bSizer15 );
 	this->Layout();
-	m_timerSystem.SetOwner( this, wxID_ANY );
 	m_timerWork.SetOwner( this, wxID_ANY );
 	
 	this->Centre( wxBOTH );
@@ -852,7 +851,6 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_checkBoxAdapter->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MyFrameBase::OnCheckAdapter ), NULL, this );
 	m_checkBoxLog->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MyFrameBase::OnCheckLogProtocol ), NULL, this );
 	m_buttonStart->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrameBase::OnStart ), NULL, this );
-	this->Connect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( MyFrameBase::OnSysTimerTick ) );
 	this->Connect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( MyFrameBase::OnTimerTick ) );
 }
 
@@ -875,7 +873,6 @@ MyFrameBase::~MyFrameBase()
 	m_checkBoxAdapter->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MyFrameBase::OnCheckAdapter ), NULL, this );
 	m_checkBoxLog->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MyFrameBase::OnCheckLogProtocol ), NULL, this );
 	m_buttonStart->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrameBase::OnStart ), NULL, this );
-	this->Disconnect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( MyFrameBase::OnSysTimerTick ) );
 	this->Disconnect( wxID_ANY, wxEVT_TIMER, wxTimerEventHandler( MyFrameBase::OnTimerTick ) );
 	
 }

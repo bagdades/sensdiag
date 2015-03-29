@@ -36,7 +36,6 @@ class MyFrame : public MyFrameBase
 		void OnCheckAdapter( wxCommandEvent& event );
 		void OnCheckLogProtocol( wxCommandEvent& event );
 		void OnTimerTick( wxTimerEvent& event );
-		void OnSysTimerTick( wxTimerEvent& event );
 	public:
 		/** Constructor */
 		MyFrame( wxWindow* parent );
@@ -85,7 +84,7 @@ class MyFrame : public MyFrameBase
 		bool uprClose;
 		wxString inStr;
 		bool init;
-
+		wxTextFile* logFile;
 };
 
 #endif // __myframe__
