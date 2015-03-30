@@ -24,6 +24,7 @@ class MyFrame : public MyFrameBase
 		void OnStart( wxCommandEvent& event );
 		void OnExit( wxCommandEvent& event );
 		void OnSaveLog( wxCommandEvent& event );
+		void OnClearLog( wxCommandEvent& event );
 		void OnAbout( wxCommandEvent& event );
 		void OnPageChange( wxNotebookEvent& event );
 		void OnResetError( wxCommandEvent& event );
@@ -85,6 +86,7 @@ class MyFrame : public MyFrameBase
 		wxString inStr;
 		bool init;
 		wxTextFile* logFile;
+
 };
 
 #endif // __myframe__

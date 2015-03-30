@@ -187,6 +187,7 @@ class MyFrameBase : public wxFrame
 		virtual void OnStart( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveLog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnClearLog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPageChange( wxNotebookEvent& event ) { event.Skip(); }
 		virtual void OnResetError( wxCommandEvent& event ) { event.Skip(); }

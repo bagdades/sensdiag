@@ -1262,9 +1262,22 @@ void MyFrame::OnExit( wxCommandEvent& event )
 
 void MyFrame::OnSaveLog( wxCommandEvent& event )
 {
-	wxFileDialog* dlg = new wxFileDialog(this, wxT("Save log"), wxT("File"), 
+	wxFileDialog* dlg = new wxFileDialog(this, wxT("Save log"), wxT("File"),
 			wxT(""), wxT("*.*"), wxFD_SAVE);
 	dlg->ShowModal();
+}
+
+void MyFrame::OnClearLog( wxCommandEvent& event )
+{
+	wxTextFile* file = new wxTextFile("log.txt");
+	if( file->Exists() )
+	{
+		file->Open();
+		file->Clear();
+		file->Write();
+		file->Close();
+	}
+	delete file;
 }
 
 void MyFrame::OnAbout( wxCommandEvent& event )
@@ -1349,6 +1362,10 @@ void MyFrame::OnCheckLogProtocol( wxCommandEvent& event )
 
 void MyFrame::OnTimerTick( wxTimerEvent& event )
 {
+	// wxString strin;
+	// int a = 50;
+	// strin.Printf("%2d", a);
+	// m_staticText_Dat1->SetLabel(strin);
 	if( m_checkBoxLog->IsChecked() )
 	{
 		logFile = new wxTextFile(wxT("log.txt"));
@@ -1359,7 +1376,7 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 	int inDB = 0;
 	if( serialPort.IsOpen() == TRUE )
 	{
-           /* Read serial port and check crc */
+		/* Read serial port and check crc */
 		int cb = 0;
 		unsigned char b = 0;
 		cb = serialPort.BytesToRead();
@@ -1466,7 +1483,7 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 								case 11 : En = "MP 7.0 (E2)"; break;
 								case 12 : En = "MP 7.0 (E3)"; break;
 							}
-						wxMessageBox("Ваш ЕБК розпізнано як: " + En);
+							wxMessageBox("Ваш ЕБК розпізнано як: " + En);
 						}
 					}
 					else
@@ -1476,7 +1493,7 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 							int errCount = inData[inDB + 1];
 							inDB += 2;
 							int errCode = 0;
-							wxString Error = _("Невідома помилка.");
+							wxString Error = wxT("Невідома помилка.");
 							bool errEnable = FALSE;
 							if( errCount > 0 )
 							{
@@ -1487,620 +1504,620 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 									errCode |= inData[inDB + i * 3 + 1] & 0xFF;
 									switch(errCode)
 									{
-										case 0x0030: Error = _("Неисправность цепи нагревателя датчика кислорода № 1"); break;
-										case 0x0031: Error = _("Обрыв или замыкание на Массу цепи  нагревателя датчика кислорода № 1"); break;
-										case 0x0032: Error = _("Короткое замыкание на Бортсеть цепи нагревателя датчика кислорода № 1"); break;
-										case 0x0036: Error = _("Неисправность цепи нагревателя датчика кислорода № 2"); break;
-										case 0x0037: Error = _("Обрыв или замыкание на Массу цепи нагревателя датчика кислорода № 2"); break;
-										case 0x0038: Error = _("Короткое замыкание на Бортсеть цепи нагревателя датчика кислорода № 2"); break;
-										case 0x0100: Error = _("Низкий или высокий уровень сигнала с датчика расхода воздуха."); break;
-										case 0x0101: Error = _("Выход сигнала датчика массового расхода воздуха за допустимый диапазон"); break;
-										case 0x0102: Error = _("Низкий уровень сигнала датчика массового расхода воздуха (ДМРВ)"); break;
-										case 0x0103: Error = _("Высокий уровень сигнала датчика массового расхода воздуха (ДМРВ)"); break;
-										case 0x0104: Error = _("Mass or Volume Air Flow Circuit Intermittent "); break;
-										case 0x0105: Error = _("Некорректный сигнал в цепи датчика абсолютного давления воздуха"); break;
-										case 0x0106: Error = _("Выход сигнала датчика абсолютного давления воздуха за допустимый диапазон"); break;
-										case 0x0107: Error = _("Низкий уровень сигнала цепи датчика абсолютного давления воздуха"); break;
-										case 0x0108: Error = _("Высокий уровень сигнала цепи датчика абсолютного давления воздуха"); break;
-										case 0x0109: Error = _("Manifold Absolute Pressure/Barometric Pressure Circuit Intermittent "); break;
-										case 0x0110: Error = _("Низкий или высокий уровень сигнала с датчика температуры воздуха."); break;
-										case 0x0111: Error = _("Intake Air Temperature Circuit Range/Performance Problem "); break;
-										case 0x0112: Error = _("Низкий уровень сигнала датчика температуры впускного коллектора (ДТВ)"); break;
-										case 0x0113: Error = _("Высокий уровень сигнала датчика температуры впускного коллектора (ДТВ)"); break;
-										case 0x0114: Error = _("Intake Air Temperature Circuit Intermittent "); break;
-										case 0x0115: Error = _("Выход сигнала датчика температуры охлаждающей жидкости (ДТОЖ) за допустимый диапазон"); break;
-										case 0x0116: Error = _("Выход сигнала датчика температуры охлаждающей жидкости (ДТОЖ) за допустимый диапазон"); break;
-										case 0x0117: Error = _("Низкий уровень сигнала датчика температуры охлаждающей жидкости (ДТОЖ)"); break;
-										case 0x0118: Error = _("Высокий уровень сигнала датчика температуры охлаждающей жидкости (ДТОЖ)"); break;
-										case 0x0119: Error = _("Engine Coolant Temperature Circuit Intermittent "); break;
-										case 0x0120: Error = _("Низкий или высокий уровень сигнала с датчика положения дросселя."); break;
-										case 0x0121: Error = _("Некорректный сигнал датчика № 1 положения дроссельной заслонки"); break;
-										case 0x0122: Error = _("Низкий уровень сигнала датчика положения дроссельной заслонки (ДПДЗ)"); break;
-										case 0x0123: Error = _("Высокий уровень сигнала датчика положения дроссельной заслонки (ДПДЗ)"); break;
-										case 0x0124: Error = _("Throttle Position Sensor/Switch A Circuit Intermittent "); break;
-										case 0x0125: Error = _("Insufficient Coolant Temperature for Closed Loop Fuel Control; ECT Excessive Time to Closed Loop Fuel Control"); break;
-										case 0x0126: Error = _("Insufficient Coolant Temperature for Stable Operation "); break;
-										case 0x0128: Error = _("Coolant Thermostat Malfunction "); break;
-										case 0x0129: Error = _("Barometric Pressure Too Low "); break;
-										case 0x0130: Error = _("Неисправность сигнальной цепи или потеря активности датчика кислорода № 1 (до нейтрализатора)"); break;
-										case 0x0131: Error = _("Низкий уровень сигнал датчика кислорода № 1 (до нейтрализатора)"); break;
-										case 0x0132: Error = _("Высокий уровень сигнала датчика кислорода № 1 (до нейтрализатора)"); break;
-										case 0x0133: Error = _("Медленный отклик датчика кислорода № 1 (до нейтрализатора) на изменение состава смеси"); break;
-										case 0x0134: Error = _("Потеря активности или обрыв цепи датчика кислорода № 1 (до нейтрализатора)"); break;
-										case 0x0135: Error = _("Неисправность цепи нагревателя датчика кислорода № 1 (до нейтрализатора)"); break;
-										case 0x0136: Error = _("Неисправность или замыкание на массу сигнальной цепи датчика кислорода № 2 (после нейтрализатора)"); break;
-										case 0x0137: Error = _("Низкий уровень сигнала датчика кислорода № 2 (после нейтрализатора)"); break;
-										case 0x0138: Error = _("Высокий уровень сигнала датчика кислорода № 2 (после нейтрализатора)"); break;
-										case 0x0139: Error = _("Медленный отклик датчика кислорода № 2 (после нейтрализатора) на изменение состава смеси"); break;
-										case 0x0140: Error = _("Потеря активности или обрыв цепи датчика кислорода № 2 (после нейтрализатора)"); break;
-										case 0x0141: Error = _("Неисправность нагревателя датчика кислорода № 2 (после нейтрализатора)"); break;
-										case 0x0142: Error = _("O2 Sensor Circuit Malfunction (Bank 1 Sensor 3) "); break;
-										case 0x0143: Error = _("O2 Sensor Circuit Low Voltage (Bank 1 Sensor 3) "); break;
-										case 0x0144: Error = _("O2 Sensor Circuit High Voltage (Bank 1 Sensor 3) "); break;
-										case 0x0145: Error = _("O2 Sensor Circuit Slow Response (Bank 1 Sensor 3) "); break;
-										case 0x0146: Error = _("O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 3) "); break;
-										case 0x0147: Error = _("O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 3) "); break;
-										case 0x0150: Error = _("O2 Sensor Circuit Malfunction (Bank 2 Sensor 1) "); break;
-										case 0x0151: Error = _("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1) "); break;
-										case 0x0152: Error = _("O2 Sensor Circuit High Voltage (Bank 2 Sensor 1) "); break;
-										case 0x0153: Error = _("O2 Sensor Circuit Slow Response (Bank 2 Sensor 1) "); break;
-										case 0x0154: Error = _("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1) "); break;
-										case 0x0155: Error = _("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1) "); break;
-										case 0x0156: Error = _("O2 Sensor Circuit Malfunction (Bank 2 Sensor 2) "); break;
-										case 0x0157: Error = _("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 2) "); break;
-										case 0x0158: Error = _("O2 Sensor Circuit High Voltage (Bank 2 Sensor 2) "); break;
-										case 0x0159: Error = _("O2 Sensor Circuit Slow Response (Bank 2 Sensor 2) "); break;
-										case 0x0160: Error = _("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2) "); break;
-										case 0x0161: Error = _("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2) "); break;
-										case 0x0162: Error = _("O2 Sensor Circuit Malfunction (Bank 2 Sensor 3) "); break;
-										case 0x0163: Error = _("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3) "); break;
-										case 0x0164: Error = _("O2 Sensor Circuit High Voltage (Bank 2 Sensor 3) "); break;
-										case 0x0165: Error = _("O2 Sensor Circuit Slow Response (Bank 2 Sensor 3) "); break;
-										case 0x0166: Error = _("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 3) "); break;
-										case 0x0167: Error = _("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 3) "); break;
-										case 0x0170: Error = _("Fuel Trim Malfunction (Bank 1) "); break;
-										case 0x0171: Error = _("Система топливоподачи слишком бедная при ее максимальном обогащении"); break;
-										case 0x0172: Error = _("Система топливоподачи слишком богатая при ее максимальном обеднении"); break;
-										case 0x0173: Error = _("Fuel Trim Malfunction (Bank 2) "); break;
-										case 0x0174: Error = _("Fuel Trim too Lean (Bank 2) "); break;
-										case 0x0175: Error = _("Fuel Trim too Rich (Bank 2) "); break;
-										case 0x0176: Error = _("Fuel Composition Sensor Circuit Malfunction "); break;
-										case 0x0177: Error = _("Fuel Composition Sensor Circuit Range/Performance "); break;
-										case 0x0178: Error = _("Fuel Composition Sensor Circuit Low Input "); break;
-										case 0x0179: Error = _("Fuel Composition Sensor Circuit High Input "); break;
-										case 0x0180: Error = _("Fuel Temperature Sensor A Circuit Malfunction "); break;
-										case 0x0181: Error = _("Fuel Temperature Sensor A Circuit Range/Performance "); break;
-										case 0x0182: Error = _("Fuel Temperature Sensor A Circuit Low Input "); break;
-										case 0x0183: Error = _("Fuel Temperature Sensor A Circuit High Input "); break;
-										case 0x0184: Error = _("Fuel Temperature Sensor A Circuit Intermittent "); break;
-										case 0x0185: Error = _("Fuel Temperature Sensor B Circuit Malfunction "); break;
-										case 0x0186: Error = _("Fuel Temperature Sensor B Circuit Range/Performance "); break;
-										case 0x0187: Error = _("Fuel Temperature Sensor B Circuit Low Input "); break;
-										case 0x0188: Error = _("Fuel Temperature Sensor B Circuit High Input "); break;
-										case 0x0189: Error = _("Fuel Temperature Sensor B Circuit Intermittent "); break;
-										case 0x0190: Error = _("Fuel Rail Pressure Sensor Circuit Malfunction "); break;
-										case 0x0191: Error = _("Fuel Rail Pressure Sensor Circuit Range/Performance "); break;
-										case 0x0192: Error = _("Fuel Rail Pressure Sensor Circuit Low Input "); break;
-										case 0x0193: Error = _("Fuel Rail Pressure Sensor Circuit High Input "); break;
-										case 0x0194: Error = _("Fuel Rail Pressure Sensor Circuit Intermittent "); break;
-										case 0x0195: Error = _("Engine Oil Temperature Sensor Malfunction "); break;
-										case 0x0196: Error = _("Engine Oil Temperature Sensor Range/Performance "); break;
-										case 0x0197: Error = _("Engine Oil Temperature Sensor Low "); break;
-										case 0x0198: Error = _("Engine Oil Temperature Sensor High "); break;
-										case 0x0199: Error = _("Engine Oil Temperature Sensor Intermittent "); break;
-										case 0x0200: Error = _("Цепь управления форсунками неисправна"); break;
-										case 0x0201: Error = _("Неисправность или обрыв цепи управления форсункой 1"); break;
-										case 0x0202: Error = _("Неисправность или обрыв цепи управления форсункой 2"); break;
-										case 0x0203: Error = _("Неисправность или обрыв цепи управления форсункой 3"); break;
-										case 0x0204: Error = _("Неисправность или обрыв цепи управления форсункой 4"); break;
-										case 0x0205: Error = _("Injector Circuit Malfunction - Cylinder 5 "); break;
-										case 0x0206: Error = _("Injector Circuit Malfunction - Cylinder 6 "); break;
-										case 0x0207: Error = _("Injector Circuit Malfunction - Cylinder 7 "); break;
-										case 0x0208: Error = _("Injector Circuit Malfunction - Cylinder 8 "); break;
-										case 0x0209: Error = _("Injector Circuit Malfunction - Cylinder 9 "); break;
-										case 0x0210: Error = _("Injector Circuit Malfunction - Cylinder 10 "); break;
-										case 0x0211: Error = _("Injector Circuit Malfunction - Cylinder 11 "); break;
-										case 0x0212: Error = _("Injector Circuit Malfunction - Cylinder 12 "); break;
-										case 0x0213: Error = _("Cold Start Injector 1 Malfunction "); break;
-										case 0x0214: Error = _("Cold Start Injector 2 Malfunction "); break;
-										case 0x0215: Error = _("Engine Shutoff Solenoid Malfunction "); break;
-										case 0x0216: Error = _("Injection Timing Control Circuit Malfunction "); break;
-										case 0x0217: Error = _("Перегрев системы охлаждения двигателя"); break;
-										case 0x0218: Error = _("Transmission Over Temperature Condition "); break;
-										case 0x0219: Error = _("Превышение допустимой частоты вращения двигателя"); break;
-										case 0x0220: Error = _("Throttle/Petal Position Sensor/Switch B Circuit Malfunction "); break;
-										case 0x0221: Error = _("Throttle/Petal Position Sensor/Switch B Circuit Range/Performance Problem "); break;
-										case 0x0222: Error = _("Низкий уровень сигнала цепи датчика № 2 положения дроссельной заслонки"); break;
-										case 0x0223: Error = _("Высокий уровень сигнала цепи датчика № 2 положения дроссельной заслонки"); break;
-										case 0x0224: Error = _("Throttle/Petal Position Sensor/Switch B Circuit Intermittent "); break;
-										case 0x0225: Error = _("Throttle/Petal Position Sensor/Switch C Circuit Malfunction "); break;
-										case 0x0226: Error = _("Throttle/Petal Position Sensor/Switch C Circuit Range/Performance Problem "); break;
-										case 0x0227: Error = _("Throttle/Petal Position Sensor/Switch C Circuit Low Input "); break;
-										case 0x0228: Error = _("Throttle/Petal Position Sensor/Switch C Circuit High Input "); break;
-										case 0x0229: Error = _("Throttle/Petal Position Sensor/Switch C Circuit Intermittent "); break;
-										case 0x0230: Error = _("Неисправность цепи управления реле электробензонасоса"); break;
-										case 0x0231: Error = _("Fuel Pump Secondary Circuit Low "); break;
-										case 0x0232: Error = _("Fuel Pump Secondary Circuit High "); break;
-										case 0x0233: Error = _("Fuel Pump Secondary Circuit Intermittent "); break;
-										case 0x0234: Error = _("Engine Overboost Condition "); break;
-										case 0x0235: Error = _("Turbocharger Boost Sensor A Circuit Malfunction "); break;
-										case 0x0236: Error = _("Turbocharger Boost Sensor A Circuit Range/Performance "); break;
-										case 0x0237: Error = _("Turbocharger Boost Sensor A Circuit Low "); break;
-										case 0x0238: Error = _("Turbocharger Boost Sensor A Circuit High "); break;
-										case 0x0239: Error = _("Turbocharger Boost Sensor B Malfunction "); break;
-										case 0x0240: Error = _("Turbocharger Boost Sensor B Circuit Range/Performance "); break;
-										case 0x0241: Error = _("Turbocharger Boost Sensor B Circuit Low "); break;
-										case 0x0242: Error = _("Turbocharger Boost Sensor B Circuit High "); break;
-										case 0x0243: Error = _("Turbocharger Wastegate Solenoid A Malfunction "); break;
-										case 0x0244: Error = _("Turbocharger Wastegate Solenoid A Range/Performance "); break;
-										case 0x0245: Error = _("Turbocharger Wastegate Solenoid A Low "); break;
-										case 0x0246: Error = _("Turbocharger Wastegate Solenoid A High "); break;
-										case 0x0247: Error = _("Turbocharger Wastegate Solenoid B Malfunction "); break;
-										case 0x0248: Error = _("Turbocharger Wastegate Solenoid B Range/Performance "); break;
-										case 0x0249: Error = _("Turbocharger Wastegate Solenoid B Low "); break;
-										case 0x0250: Error = _("Turbocharger Wastegate Solenoid B High "); break;
-										case 0x0251: Error = _("Injection Pump Fuel Metering Control A Malfunction (Cam/Rotor/Injector)"); break;
-										case 0x0252: Error = _("Injection Pump Fuel Metering Control A Range/Performance (Cam/Rotor/Injector)"); break;
-										case 0x0253: Error = _("Injection Pump Fuel Metering Control A Low (Cam/Rotor/Injector)"); break;
-										case 0x0254: Error = _("Injection Pump Fuel Metering Control A High (Cam/Rotor/Injector)"); break;
-										case 0x0255: Error = _("Injection Pump Fuel Metering Control A Intermittent (Cam/Rotor/Injector)"); break;
-										case 0x0256: Error = _("Injection Pump Fuel Metering Control B Malfunction (Cam/Rotor/Injector)"); break;
-										case 0x0257: Error = _("Injection Pump Fuel Metering Control B Range/Performance (Cam/Rotor/Injector)"); break;
-										case 0x0258: Error = _("Injection Pump Fuel Metering Control B Low (Cam/Rotor/Injector)"); break;
-										case 0x0259: Error = _("Injection Pump Fuel Metering Control B High (Cam/Rotor/Injector)"); break;
-										case 0x0260: Error = _("Injection Pump Fuel Metering Control B Intermittent (Cam/Rotor/Injector)"); break;
-										case 0x0261: Error = _("Обрыв или короткое замыкание на Массу цепи управления форсункой 1"); break;
-										case 0x0262: Error = _("Короткое замыкание на Бортсеть цепи управления форсункой 1"); break;
-										case 0x0263: Error = _("Предельное падение крутящего момента в цилиндре 1 или неисправность драйвера форсунки 1"); break;
-										case 0x0264: Error = _("Короткое замыкание на Массу цепи управления форсункой 2"); break;
-										case 0x0265: Error = _("Короткое замыкание на Бортсеть цепи управления форсункой 2"); break;
-										case 0x0266: Error = _("Предельное падение крутящего момента в цилиндре 2 или неисправность драйвера форсунки 2"); break;
-										case 0x0267: Error = _("Короткое замыкание на Массу цепи управления форсункой 3"); break;
-										case 0x0268: Error = _("Короткое замыкание на Бортсеть цепи управления форсункой 3"); break;
-										case 0x0269: Error = _("Предельное падение крутящего момента в цилиндре 3 или неисправность драйвера форсунки 3"); break;
-										case 0x0270: Error = _("Короткое замыкание на Массу цепи управления форсункой 4"); break;
-										case 0x0271: Error = _("Короткое замыкание на Бортсеть цепи управления форсункой 4"); break;
-										case 0x0272: Error = _("Предельное падение крутящего момента в цилиндре 4 или неисправность драйвера форсунки 4"); break;
-										case 0x0273: Error = _("Cylinder 5 Injector Circuit Low "); break;
-										case 0x0274: Error = _("Cylinder 5 Injector Circuit High "); break;
-										case 0x0275: Error = _("Cylinder 5 Contribution/Balance Fault "); break;
-										case 0x0276: Error = _("Cylinder 6 Injector Circuit Low "); break;
-										case 0x0277: Error = _("Cylinder 6 Injector Circuit High "); break;
-										case 0x0278: Error = _("Cylinder 6 Contribution/Balance Fault "); break;
-										case 0x0279: Error = _("Cylinder 7 Injector Circuit Low "); break;
-										case 0x0280: Error = _("Cylinder 7 Injector Circuit High "); break;
-										case 0x0281: Error = _("Cylinder 7 Contribution/Balance Fault "); break;
-										case 0x0282: Error = _("Cylinder 8 Injector Circuit Low "); break;
-										case 0x0283: Error = _("Cylinder 8 Injector Circuit High "); break;
-										case 0x0284: Error = _("Cylinder 8 Contribution/Balance Fault "); break;
-										case 0x0285: Error = _("Cylinder 9 Injector Circuit Low "); break;
-										case 0x0286: Error = _("Cylinder 9 Injector Circuit High "); break;
-										case 0x0287: Error = _("Cylinder 9 Contribution/Balance Fault "); break;
-										case 0x0288: Error = _("Cylinder 10 Injector Circuit Low "); break;
-										case 0x0289: Error = _("Cylinder 10 Injector Circuit High "); break;
-										case 0x0290: Error = _("Cylinder 10 Contribution/Balance Fault "); break;
-										case 0x0291: Error = _("Cylinder 11 Injector Circuit Low "); break;
-										case 0x0292: Error = _("Cylinder 11 Injector Circuit High "); break;
-										case 0x0293: Error = _("Cylinder 11 Contribution/Balance Fault "); break;
-										case 0x0294: Error = _("Cylinder 12 Injector Circuit Low "); break;
-										case 0x0295: Error = _("Cylinder 12 Injector Circuit High "); break;
-										case 0x0296: Error = _("Cylinder 12 Contribution/Range Fault "); break;
-										case 0x0297: Error = _("Превышение допустимой скорости автомобиля"); break;
-										case 0x0300: Error = _("Обнаружены случайные/множественные пропуски зажигания"); break;
-										case 0x0301: Error = _("Пропуски воспламенения в цилиндре 1"); break;
-										case 0x0302: Error = _("Пропуски воспламенения в цилиндре 2"); break;
-										case 0x0303: Error = _("Пропуски воспламенения в цилиндре 3"); break;
-										case 0x0304: Error = _("Пропуски воспламенения в цилиндре 4"); break;
-										case 0x0305: Error = _("Cylinder 5 Misfire Detected "); break;
-										case 0x0306: Error = _("Cylinder 6 Misfire Detected "); break;
-										case 0x0307: Error = _("Cylinder 7 Misfire Detected "); break;
-										case 0x0308: Error = _("Cylinder 8 Misfire Detected "); break;
-										case 0x0309: Error = _("Cylinder 9 Misfire Detected "); break;
-										case 0x0310: Error = _("Cylinder 10 Misfire Detected "); break;
-										case 0x0311: Error = _("Cylinder 11 Misfire Detected "); break;
-										case 0x0312: Error = _("Cylinder 12 Misfire Detected "); break;
-										case 0x0320: Error = _("Ignition/Distributor Engine Speed Input Circuit Malfunction "); break;
-										case 0x0321: Error = _("Ignition/Distributor Engine Speed Input Circuit Range/Performance "); break;
-										case 0x0322: Error = _("Ignition/Distributor Engine Speed Input Circuit No Signal "); break;
-										case 0x0323: Error = _("Ignition/Distributor Engine Speed Input Circuit Intermittent "); break;
-										case 0x0325: Error = _("Неисправность или обрыв цепи датчика детонации"); break;
-										case 0x0326: Error = _("Knock Sensor 1 Circuit Range/Performance (Bank 1 or Single Sensor) "); break;
-										case 0x0327: Error = _("Низкий уровень сигнала датчика детонации (ДД)"); break;
-										case 0x0328: Error = _("Высокий уровень сигнала датчика детонации (ДД)"); break;
-										case 0x0329: Error = _("Knock Sensor 1 Circuit Intermittent (Bank 1 or Single Sensor) "); break;
-										case 0x0330: Error = _("Knock Sensor 2 Circuit Malfunction (Bank 2) "); break;
-										case 0x0331: Error = _("Knock Sensor 2 Circuit Range/Performance (Bank 2) "); break;
-										case 0x0332: Error = _("Knock Sensor 2 Circuit Low Input (Bank 2) "); break;
-										case 0x0333: Error = _("Knock Sensor 2 Circuit High Input (Bank 2) "); break;
-										case 0x0334: Error = _("Knock Sensor 2 Circuit Intermittent (Bank 2) "); break;
-										case 0x0335: Error = _("Неисправность или обрыв цепи датчика положения коленчатого вала (ДПКВ)"); break;
-										case 0x0336: Error = _("Сигнал датчика положения коленчатого вала (ДПКВ) выходит за допустимые пределы"); break;
-										case 0x0337: Error = _("Короткое замыкание на Массу цепи датчика положения коленчатого вала"); break;
-										case 0x0338: Error = _("Обрыв цепи датчика положения коленчатого вала"); break;
-										case 0x0339: Error = _("Ошибка синхронизации датчика положения коленчатого вала"); break;
-										case 0x0340: Error = _("Неисправность цепи датчика положения распределительного вала (датчика фазы)"); break;
-										case 0x0341: Error = _("Ошибка синхронизации датчика положения распределительного вала (датчика фазы)"); break;
-										case 0x0342: Error = _("Низкий уровень сигнала цепи датчика положения распределительного вала (датчика фазы)"); break;
-										case 0x0343: Error = _("Высокий уровень сигнала цепи датчика положения распределительного вала (датчика фазы)"); break;
-										case 0x0344: Error = _("Camshaft Position Sensor Circuit Intermittent "); break;
-										case 0x0350: Error = _("Замыкание цепи катушки зажигания."); break;
-										case 0x0351: Error = _("Обрыв первичной цепи катушки зажигания 1 (1/4)"); break;
-										case 0x0352: Error = _("Обрыв первичной цепи катушки зажигания 2 (2/3)"); break;
-										case 0x0353: Error = _("Обрыв первичной цепи катушки зажигания 3"); break;
-										case 0x0354: Error = _("Обрыв первичной цепи катушки зажигания 4"); break;
-										case 0x0355: Error = _("Ignition Coil E Primary/Secondary Circuit Malfunction "); break;
-										case 0x0356: Error = _("Ignition Coil F Primary/Secondary Circuit Malfunction "); break;
-										case 0x0357: Error = _("Ignition Coil G Primary/Secondary Circuit Malfunction "); break;
-										case 0x0358: Error = _("Ignition Coil H Primary/Secondary Circuit Malfunction "); break;
-										case 0x0359: Error = _("Ignition Coil I Primary/Secondary Circuit Malfunction "); break;
-										case 0x0360: Error = _("Ignition Coil J Primary/Secondary Circuit Malfunction "); break;
-										case 0x0361: Error = _("Ignition Coil K Primary/Secondary Circuit Malfunction "); break;
-										case 0x0362: Error = _("Ignition Coil L Primary/Secondary Circuit Malfunction "); break;
-										case 0x0370: Error = _("Timing Reference High Resolution Signal A Malfunction "); break;
-										case 0x0371: Error = _("Timing Reference High Resolution Signal A Too Many Pulses "); break;
-										case 0x0372: Error = _("Timing Reference High Resolution Signal A Too Few Pulses "); break;
-										case 0x0373: Error = _("Timing Reference High Resolution Signal A Intermittent/Erratic Pulses "); break;
-										case 0x0374: Error = _("Timing Reference High Resolution Signal A No Pulses "); break;
-										case 0x0375: Error = _("Timing Reference High Resolution Signal B Malfunction "); break;
-										case 0x0376: Error = _("Timing Reference High Resolution Signal B Too Many Pulses "); break;
-										case 0x0377: Error = _("Timing Reference High Resolution Signal B Too Few Pulses "); break;
-										case 0x0378: Error = _("Timing Reference High Resolution Signal B Intermittent/Erratic Pulses "); break;
-										case 0x0379: Error = _("Timing Reference High Resolution Signal B No Pulses "); break;
-										case 0x0380: Error = _("Glow Plug/Heater Circuit A Malfunction"); break;
-										case 0x0381: Error = _("Glow Plug/Heater Indicator Circuit Malfunction "); break;
-										case 0x0382: Error = _("Exhaust Gas Recirculation Flow Malfunction "); break;
-										case 0x0385: Error = _("Crankshaft Position Sensor B Circuit Malfunction "); break;
-										case 0x0386: Error = _("Crankshaft Position Sensor B Circuit Range/Performance "); break;
-										case 0x0387: Error = _("Crankshaft Position Sensor B Circuit Low Input "); break;
-										case 0x0388: Error = _("Crankshaft Position Sensor B Circuit High Input "); break;
-										case 0x0389: Error = _("Crankshaft Position Sensor B Circuit Intermittent "); break;
-										case 0x0400: Error = _("Exhaust Gas Recirculation Flow Malfunction "); break;
-										case 0x0401: Error = _("Exhaust Gas Recirculation Flow Insufficient Detected"); break;
-										case 0x0402: Error = _("Exhaust Gas Recirculation Flow Excessive Detected "); break;
-										case 0x0403: Error = _("Обрыв или замыкание цепи клапана рециркуляции."); break;
-										case 0x0404: Error = _("Exhaust Gas Recirculation Circuit Range/Performance "); break;
-										case 0x0405: Error = _("Низкий или высокий уровень сигнала с датчика положения клапана рециркуляции."); break;
-										case 0x0406: Error = _("Exhaust Gas Recirculation Sensor A Circuit High "); break;
-										case 0x0407: Error = _("Exhaust Gas Recirculation Sensor B Circuit Low "); break;
-										case 0x0408: Error = _("Exhaust Gas Recirculation Sensor B Circuit High "); break;
-										case 0x0410: Error = _("Secondary Air Injection System Malfunction "); break;
-										case 0x0411: Error = _("Secondary Air Injection System Incorrect Flow Detected "); break;
-										case 0x0412: Error = _("Secondary Air Injection System Switching Valve A Circuit Malfunction "); break;
-										case 0x0413: Error = _("Secondary Air Injection System Switching Valve A Circuit Open "); break;
-										case 0x0414: Error = _("Secondary Air Injection System Switching Valve A Circuit Shorted "); break;
-										case 0x0415: Error = _("Secondary Air Injection System Switching Valve B Circuit Malfunction "); break;
-										case 0x0416: Error = _("Secondary Air Injection System Switching Valve B Circuit Open "); break;
-										case 0x0417: Error = _("Secondary Air Injection System Switching Valve B Circuit Shorted "); break;
-										case 0x0418: Error = _("Secondary Air Injection System Relay A Circuit Malfunction"); break;
-										case 0x0419: Error = _("Secondary Air Injection System Relay B Circuit Malfunction"); break;
-										case 0x0420: Error = _("Эффективность нейтрализатора ниже допустимой нормы"); break;
-										case 0x0421: Error = _("Warm Up Catalyst Efficiency Below Threshold (Bank 1) "); break;
-										case 0x0422: Error = _("Эффективность нейтрализатора ниже допустимой нормы"); break;
-										case 0x0423: Error = _("Heated Catalyst Efficiency Below Threshold (Bank 1) "); break;
-										case 0x0424: Error = _("Heated Catalyst Temperature Below Threshold (Bank 1) "); break;
-										case 0x0426: Error = _("Catalyst Temperature Sensor Range/Performance (Bank 1) "); break;
-										case 0x0427: Error = _("Catalyst Temperature Sensor Low Input (Bank 1) "); break;
-										case 0x0428: Error = _("Catalyst Temperature Sensor High Input (Bank 1) "); break;
-										case 0x0430: Error = _("Catalyst System Efficiency Below Threshold (Bank 2) "); break;
-										case 0x0431: Error = _("Warm Up Catalyst Efficiency Below Threshold (Bank 2) "); break;
-										case 0x0432: Error = _("Main Catalyst Efficiency Below Threshold (Bank 2) "); break;
-										case 0x0433: Error = _("Heated Catalyst Efficiency Below Threshold (Bank 2) "); break;
-										case 0x0434: Error = _("Heated Catalyst Temperature Below Threshold (Bank 2) "); break;
-										case 0x0436: Error = _("Catalyst Temperature Sensor Range/Performance (Bank 2) "); break;
-										case 0x0437: Error = _("Catalyst Temperature Sensor Low Input (Bank 2) "); break;
-										case 0x0438: Error = _("Catalyst Temperature Sensor High Input (Bank 2) "); break;
-										case 0x0440: Error = _("Evaporative Emission Control System Malfunction "); break;
-										case 0x0441: Error = _("Некорректный расход воздуха через клапан продувки адсорбера"); break;
-										case 0x0442: Error = _("Evaporative Emission Control System Leak Detected (small leak) "); break;
-										case 0x0443: Error = _("Неисправность цепи управления клапаном продувки адсорбера"); break;
-										case 0x0444: Error = _("Короткое замыкание на источник бортовой сети (или обрыв) цепи управления клапаном продувки адсорбера"); break;
-										case 0x0445: Error = _("Короткое замыкание на массу цепи управления клапаном продувки адсорбера"); break;
-										case 0x0446: Error = _("Обрыв или замыкание цепи клапана продувки адсорбера."); break;
-										case 0x0447: Error = _("Evaporative Emission Control System Vent Control Circuit Open "); break;
-										case 0x0448: Error = _("Evaporative Emission Control System Vent Control Circuit Shorted "); break;
-										case 0x0449: Error = _("Evaporative Emission Control System Vent Valve/Solenoid Circuit Malfunction "); break;
-										case 0x0450: Error = _("Evaporative Emission Control System Pressure Sensor Malfunction "); break;
-										case 0x0451: Error = _("Evaporative Emission Control System Pressure Sensor Range/Performance "); break;
-										case 0x0452: Error = _("Evaporative Emission Control System Pressure Sensor Low Input "); break;
-										case 0x0453: Error = _("Evaporative Emission Control System Pressure Sensor High Input "); break;
-										case 0x0454: Error = _("Evaporative Emission Control System Pressure Sensor Intermittent "); break;
-										case 0x0455: Error = _("Evaporative Emission Control System Leak Detected (gross leak) "); break;
-										case 0x0460: Error = _("Fuel Level Sensor Circuit Malfunction "); break;
-										case 0x0461: Error = _("Fuel Level Sensor Circuit Range/Performance "); break;
-										case 0x0462: Error = _("Fuel Level Sensor Circuit Low Input "); break;
-										case 0x0463: Error = _("Fuel Level Sensor Circuit High Input "); break;
-										case 0x0464: Error = _("Fuel Level Sensor Circuit Intermittent "); break;
-										case 0x0465: Error = _("Purge Flow Sensor Circuit Malfunction "); break;
-										case 0x0466: Error = _("Purge Flow Sensor Circuit Range/Performance "); break;
-										case 0x0467: Error = _("Purge Flow Sensor Circuit Low Input "); break;
-										case 0x0468: Error = _("Purge Flow Sensor Circuit High Input "); break;
-										case 0x0469: Error = _("Purge Flow Sensor Circuit Intermittent "); break;
-										case 0x0470: Error = _("Exhaust Pressure Sensor Malfunction "); break;
-										case 0x0471: Error = _("Exhaust Pressure Sensor Range/Performance "); break;
-										case 0x0472: Error = _("Exhaust Pressure Sensor Low "); break;
-										case 0x0473: Error = _("Exhaust Pressure Sensor High "); break;
-										case 0x0474: Error = _("Exhaust Pressure Sensor Intermittent "); break;
-										case 0x0475: Error = _("Exhaust Pressure Control Valve Malfunction "); break;
-										case 0x0476: Error = _("Exhaust Pressure Control Valve Range/Performance "); break;
-										case 0x0477: Error = _("Exhaust Pressure Control Valve Low "); break;
-										case 0x0478: Error = _("Exhaust Pressure Control Valve High "); break;
-										case 0x0479: Error = _("Exhaust Pressure Control Valve Intermittent "); break;
-										case 0x0480: Error = _("Неисправность цепи управления реле вентилятора № 1 охлаждения"); break;
-										case 0x0481: Error = _("Неисправность цепи управления реле вентилятора № 2 охлаждения"); break;
-										case 0x0482: Error = _("Cooling Fan 3 Control Circuit Malfunction "); break;
-										case 0x0483: Error = _("Cooling Fan Rationality Check Malfunction "); break;
-										case 0x0484: Error = _("Cooling Fan Circuit Over Current "); break;
-										case 0x0485: Error = _("Cooling Fan Power/Ground Circuit Malfunction "); break;
-										case 0x0500: Error = _("Неисправность цепи или нет сигнала от датчика скорости автомобиля"); break;
-										case 0x0501: Error = _("Неисправность цепи датчика скорости автомобиля"); break;
-										case 0x0502: Error = _("Vehicle Speed Sensor Low Input "); break;
-										case 0x0503: Error = _("Прерывающийся сигнал датчика скорости автомобиля"); break;
-										case 0x0504: Error = _("Некорректный сигнал выключателей педали тормоза"); break;
-										case 0x0505: Error = _("Неисправность регулятора холостого хода. Обрыв или замыкание цепи РХХ. Перегрев драйвера РХХ."); break;
-										case 0x0506: Error = _("Низкие обороты холостого хода (регулятор холостого хода заблокирован)"); break;
-										case 0x0507: Error = _("Высокие обороты холостого хода (регулятор холостого хода заблокирован)"); break;
-										case 0x0508: Error = _("Короткое замыкание на Массу цепи управления шаговым регулятором холостого хода"); break;
-										case 0x0509: Error = _("Короткое замыкание на Бортсеть цепи управления шаговым регулятором холостого хода"); break;
-										case 0x0510: Error = _("Closed Throttle Position Switch Malfunction "); break;
-										case 0x0511: Error = _("Обрыв цепи управления шаговым регулятором холостого хода"); break;
-										case 0x0520: Error = _("Engine Oil Pressure Sensor/Switch Circuit Malfunction "); break;
-										case 0x0521: Error = _("Engine Oil Pressure Sensor/Switch Circuit Range/Performance "); break;
-										case 0x0522: Error = _("Engine Oil Pressure Sensor/Switch Circuit Low Voltage "); break;
-										case 0x0523: Error = _("Engine Oil Pressure Sensor/Switch Circuit High Voltage "); break;
-										case 0x0530: Error = _("A/C Refrigerant Pressure Sensor Circuit Malfunction "); break;
-										case 0x0531: Error = _("A/C Refrigerant Pressure Sensor Circuit Range/Performance "); break;
-										case 0x0532: Error = _("A/C Refrigerant Pressure Sensor Circuit Low Input "); break;
-										case 0x0533: Error = _("A/C Refrigerant Pressure Sensor Circuit High Input "); break;
-										case 0x0534: Error = _("Air Conditioner Refrigerant Charge Loss"); break;
-										case 0x0550: Error = _("Power Steering Pressure Sensor Circuit Malfunction"); break;
-										case 0x0551: Error = _("Power Steering Pressure Sensor Circuit Range/Performance"); break;
-										case 0x0552: Error = _("Power Steering Pressure Sensor Circuit Low Input"); break;
-										case 0x0553: Error = _("Power Steering Pressure Sensor Circuit High Input"); break;
-										case 0x0554: Error = _("Power Steering Pressure Sensor Circuit Intermittent"); break;
-										case 0x0560: Error = _("Напряжение бортовой сети ниже порога работоспособности системы"); break;
-										case 0x0561: Error = _("System Voltage Unstable"); break;
-										case 0x0562: Error = _("Пониженное напряжение бортовой сети"); break;
-										case 0x0563: Error = _("Повышенное напряжение бортовой сети"); break;
-										case 0x0565: Error = _("Cruise Control On Signal Malfunction"); break;
-										case 0x0566: Error = _("Cruise Control Off Signal Malfunction"); break;
-										case 0x0567: Error = _("Cruise Control Resume Signal Malfunction"); break;
-										case 0x0568: Error = _("Cruise Control Set Signal Malfunction"); break;
-										case 0x0569: Error = _("Cruise Control Coast Signal Malfunction"); break;
-										case 0x0570: Error = _("Cruise Control Accel Signal Malfunction"); break;
-										case 0x0571: Error = _("Cruise Control/Brake Switch A Circuit Malfunction"); break;
-										case 0x0572: Error = _("Cruise Control/Brake Switch A Circuit Low"); break;
-										case 0x0573: Error = _("Cruise Control/Brake Switch A Circuit High"); break;
-										case 0x0600: Error = _("Serial Communication Link Malfunction "); break;
-										case 0x0601: Error = _("Неисправность ПЗУ контроллера (ошибка контрольной суммы)"); break;
-										case 0x0602: Error = _("Неисправность ОЗУ контроллера"); break;
-										case 0x0603: Error = _("Ошибка записи/чтения внешнего ОЗУ контроллера"); break;
-										case 0x0604: Error = _("Ошибка записи/чтения внутреннего ОЗУ контроллера"); break;
-										case 0x0605: Error = _("Неисправность флэш-ПЗУ контроллера (ошибка контрольной суммы)"); break;
-										case 0x0606: Error = _("Неисправность контроллера или ошибка при его инициализации"); break;
-										case 0x0607: Error = _("Неверный сигнал канала детонации контроллера"); break;
-										case 0x0608: Error = _("Control Module VSS Output A Malfunction"); break;
-										case 0x0609: Error = _("Control Module VSS Output B Malfunction"); break;
-										case 0x0615: Error = _("Обрыв цепи управления дополнительным реле стартера"); break;
-										case 0x0616: Error = _("Короткое замыкание на Массу цепи управления дополнительным реле стартера"); break;
-										case 0x0617: Error = _("Короткое замыкание на Бортсеть цепи управления дополнительным реле стартера"); break;
-										case 0x0618: Error = _("Неисправность внешнего EEPROM контроллера"); break;
-										case 0x0620: Error = _("Generator Control Circuit Malfunction "); break;
-										case 0x0621: Error = _("Generator Lamp L Control Circuit Malfunction"); break;
-										case 0x0622: Error = _("Generator Field F Control Circuit Malfunction"); break;
-										case 0x0627: Error = _("Обрыв цепи управления реле электробензонасоса"); break;
-										case 0x0628: Error = _("Короткое замыкание на Массу цепи управления реле электробензонасоса"); break;
-										case 0x0629: Error = _("Короткое замыкание на Бортсеть цепи управления реле электробензонасоса"); break;
-										case 0x0630: Error = _("Некорректная запись или отсутствие VIN-код автомобиля"); break;
-										case 0x0645: Error = _("Обрыв цепи управления реле муфты кондиционера"); break;
-										case 0x0646: Error = _("Обрыв или короткое замыкание на Массу цепи реле муфты кондиционера"); break;
-										case 0x0647: Error = _("Короткое замыкание на Бортсеть цепи реле муфты кондиционера"); break;
-										case 0x0650: Error = _("Неисправность цепи управления лампой MIL (Check engine)"); break;
-										case 0x0654: Error = _("Неисправность цепи управления тахометром панели приборов"); break;
-										case 0x0655: Error = _("Engine Hot Lamp Output Control Circuit Malfucntion "); break;
-										case 0x0656: Error = _("Fuel Level Output Circuit Malfunction "); break;
-										case 0x0657: Error = _("Неисправность цепи управления расходомером или указателем температуры"); break;
-										case 0x0685: Error = _("Обрыв цепи управления главным реле"); break;
-										case 0x0687: Error = _("Короткое замыкание на Бортсеть цепи управления главным реле"); break;
-										case 0x0688: Error = _("Обрыв силовой цепи с выхода главного реле"); break;
-										case 0x0690: Error = _("Короткое замыкание на Бортсеть силовой цепи главного реле"); break;
-										case 0x0691: Error = _("Обрыв или короткое замыкание на Массу цепи управления реле электровентилятора № 1"); break;
-										case 0x0692: Error = _("Короткое замыкание на Бортсеть цепи управления реле электровентилятора № 1"); break;
-										case 0x0693: Error = _("Обрыв или короткое замыкание на Массу цепи управления реле электровентилятора № 2 "); break;
-										case 0x0694: Error = _("Короткое замыкание на Бортсеть цепи управления реле электровентилятора № 2"); break;
-										case 0x0700: Error = _("Transmission Control System Malfunction "); break;
-										case 0x0701: Error = _("Transmission Control System Range/Performance "); break;
-										case 0x0702: Error = _("Transmission Control System Electrical "); break;
-										case 0x0703: Error = _("Torque Converter/Brake Switch B Circuit Malfunction "); break;
-										case 0x0704: Error = _("Clutch Switch Input Circuit Malfunction "); break;
-										case 0x0705: Error = _("Transmission Range Sensor Circuit malfunction (PRNDL Input) "); break;
-										case 0x0706: Error = _("Transmission Range Sensor Circuit Range/Performance "); break;
-										case 0x0707: Error = _("Transmission Range Sensor Circuit Low Input "); break;
-										case 0x0708: Error = _("Transmission Range Sensor Circuit High Input "); break;
-										case 0x0709: Error = _("Transmission Range Sensor Circuit Intermittent "); break;
-										case 0x0710: Error = _("Transmission Fluid Temperature Sensor Circuit Malfunction "); break;
-										case 0x0711: Error = _("Transmission Fluid Temperature Sensor Circuit Range/Performance "); break;
-										case 0x0712: Error = _("Transmission Fluid Temperature Sensor Circuit Low Input "); break;
-										case 0x0713: Error = _("Transmission Fluid Temperature Sensor Circuit High Input "); break;
-										case 0x0714: Error = _("Transmission Fluid Temperature Sensor Circuit Intermittent "); break;
-										case 0x0715: Error = _("Input/Turbine Speed Sensor Circuit Malfunction "); break;
-										case 0x0716: Error = _("Input/Turbine Speed Sensor Circuit Range/Performance "); break;
-										case 0x0717: Error = _("Input/Turbine Speed Sensor Circuit No Signal "); break;
-										case 0x0718: Error = _("Input/Turbine Speed Sensor Circuit Intermittent "); break;
-										case 0x0719: Error = _("Torque Converter/Brake Switch B Circuit Low "); break;
-										case 0x0720: Error = _("Output Speed Sensor Circuit Malfunction "); break;
-										case 0x0721: Error = _("Output Speed Sensor Range/Performance "); break;
-										case 0x0722: Error = _("Output Speed Sensor No Signal "); break;
-										case 0x0723: Error = _("Output Speed Sensor Intermittent "); break;
-										case 0x0724: Error = _("Torque Converter/Brake Switch B Circuit High "); break;
-										case 0x0725: Error = _("Engine Speed input Circuit Malfunction "); break;
-										case 0x0726: Error = _("Engine Speed Input Circuit Range/Performance "); break;
-										case 0x0727: Error = _("Engine Speed Input Circuit No Signal "); break;
-										case 0x0728: Error = _("Engine Speed Input Circuit Intermittent "); break;
-										case 0x0730: Error = _("Incorrect Gear Ratio "); break;
-										case 0x0731: Error = _("Gear 1 Incorrect ratio "); break;
-										case 0x0732: Error = _("Gear 2 Incorrect ratio "); break;
-										case 0x0733: Error = _("Gear 3 Incorrect ratio "); break;
-										case 0x0734: Error = _("Gear 4 Incorrect ratio "); break;
-										case 0x0735: Error = _("Gear 5 Incorrect ratio "); break;
-										case 0x0736: Error = _("Reverse incorrect gear ratio "); break;
-										case 0x0740: Error = _("Torque Converter Clutch Circuit Malfuction "); break;
-										case 0x0741: Error = _("Torque Converter Clutch Circuit Performance or Stuck Off "); break;
-										case 0x0742: Error = _("Torque Converter Clutch Circuit Stuck On "); break;
-										case 0x0743: Error = _("Torque Converter Clutch Circuit Electrical "); break;
-										case 0x0744: Error = _("Torque Converter Clutch Circuit Intermittent "); break;
-										case 0x0745: Error = _("Pressure Control Solenoid Malfunction "); break;
-										case 0x0746: Error = _("Pressure Control Solenoid Performance or Stuck Off "); break;
-										case 0x0747: Error = _("Pressure Control Solenoid Stuck On "); break;
-										case 0x0748: Error = _("Pressure Control Solenoid Electrical "); break;
-										case 0x0749: Error = _("Pressure Control Solenoid Intermittent "); break;
-										case 0x0750: Error = _("Shift Solenoid A Malfunction "); break;
-										case 0x0751: Error = _("Shift Solenoid A Performance or Stuck Off/1 - 2 Shift Solenoid Valve Performance "); break;
-										case 0x0752: Error = _("Shift Solenoid A Stuck On "); break;
-										case 0x0753: Error = _("Shift Solenoid A Electrical/1 - 2 Shift Solenoid Circuit Electrical "); break;
-										case 0x0754: Error = _("Shift Solenoid A Intermittent "); break;
-										case 0x0755: Error = _("Shift Solenoid B Malfunction "); break;
-										case 0x0756: Error = _("Shift Solenoid B Performance or Stuck Off/2 - 3 Shift Solenoid Valve Performance "); break;
-										case 0x0757: Error = _("Shift Solenoid B Stuck On "); break;
-										case 0x0758: Error = _("Shift Solenoid B Electrical/2 - 3 Shift Solenoid Circuit Electrical "); break;
-										case 0x0759: Error = _("Shift Solenoid B Intermittent "); break;
-										case 0x0760: Error = _("Shift Solenoid C Malfunction "); break;
-										case 0x0761: Error = _("Shift Solenoid C Performance or Stuck Off "); break;
-										case 0x0762: Error = _("Shift Solenoid C Stuck On "); break;
-										case 0x0763: Error = _("Shift Solenoid C Electrical "); break;
-										case 0x0764: Error = _("Shift Solenoid C Intermittent "); break;
-										case 0x0765: Error = _("Shift Solenoid D Malfunction "); break;
-										case 0x0766: Error = _("Shift Solenoid D Performance or Stuck Off "); break;
-										case 0x0767: Error = _("Shift Solenoid D Stuck On "); break;
-										case 0x0768: Error = _("Shift Solenoid D Electrical "); break;
-										case 0x0769: Error = _("Shift Solenoid D Intermittent "); break;
-										case 0x0770: Error = _("Shift Solenoid E Malfunction "); break;
-										case 0x0771: Error = _("Shift Solenoid E Performance or Stuck Off "); break;
-										case 0x0772: Error = _("Shift Solenoid E Stuck On "); break;
-										case 0x0773: Error = _("Shift Solenoid E Electrical "); break;
-										case 0x0774: Error = _("Shift Solenoid E Intermittent "); break;
-										case 0x0775: Error = _("Pressure Control Solenoid B Malfunction"); break;
-										case 0x0776: Error = _("Pressure Control Solenoid B Performance "); break;
-										case 0x0777: Error = _("Pressure Control Solenoid B Stuck On "); break;
-										case 0x0778: Error = _("Pressure Control Solenoid B Electrical "); break;
-										case 0x0779: Error = _("Pressure Control Solenoid B Intermittent "); break;
-										case 0x0780: Error = _("Shift Malfunction "); break;
-										case 0x0781: Error = _("1 - 2 Shift Malfunction "); break;
-										case 0x0782: Error = _("2 - 3 Shift Malfunction "); break;
-										case 0x0783: Error = _("3 - 4 Shift Malfunction "); break;
-										case 0x0784: Error = _("4 - 5 Shift Malfunction "); break;
-										case 0x0785: Error = _("Shift/Timing Solenoid Malfunction/ 3 - 2 Shift Solenoid Circuit Electrical "); break;
-										case 0x0786: Error = _("Shift/Timing Solenoid Range/Performance "); break;
-										case 0x0787: Error = _("Shift/Timing Solenoid Low "); break;
-										case 0x0788: Error = _("Shift/Timing Solenoid High "); break;
-										case 0x0789: Error = _("Shift/Timing Solenoid Intermittent "); break;
-										case 0x0790: Error = _("Normal/Performance Switch Circuit Malfunction"); break;
-										case 0x0801: Error = _("Reverse Inhibit Control Circuit Malfunction "); break;
-										case 0x0803: Error = _("1 - 4 Upshift (Skip Shift) Solenoid Control Circuit Malfunction "); break;
-										case 0x0804: Error = _("1 - 4 Upshift (Skip Shift) Lamp Control Circuit Malfunction"); break;
-										case 0x1102: Error = _("Низкое сопротивление нагревателя датчика кислорода № 1 до нейтрализатора"); break;
-										case 0x1115: Error = _("Неисправность цепи управления нагревом датчика кислорода № 1 до нейтрализатора"); break;
-										case 0x1123: Error = _("Смесь богатая - аддитивная коррекция топливно-воздушной смеси по воздуху превышает установленный порог"); break;
-										case 0x1124: Error = _("Смесь бедная - аддитивная коррекция топливно-воздушной смеси по воздуху превышает установленный порог"); break;
-										case 0x1127: Error = _("Смесь богатая - мультипликативная коррекция состава топливно-воздушной смеси превышает установленный порог"); break;
-										case 0x1128: Error = _("Смесь бедная - мультипликативная коррекция состава топливно-воздушной смеси превышает установленный порог"); break;
-										case 0x1135: Error = _("Неисправность цепи нагревателя датчика кислорода № 1"); break;
-										case 0x1136: Error = _("Смесь богатая - аддитивная коррекция топливно-воздушной смеси по топливу превышает установленный порог"); break;
-										case 0x1137: Error = _("Смесь бедная - аддитивная коррекция топливно-воздушной смеси по топливу превышает установленный порог"); break;
-										case 0x1140: Error = _("Неверный сигнал датчика массового расхода воздуха (ДМРВ), измеренный параметр нагрузки отличается от расчетного"); break;
-										case 0x1141: Error = _("Неисправность цепи нагревателя датчика кислорода № 2"); break;
-										case 0x1170: Error = _("Низкий или высокий уровень сигнала с потенциометра коррекции СО."); break;
-										case 0x1171: Error = _("Низкий уровень сигнала цепи СО-потенциометра"); break;
-										case 0x1172: Error = _("Высокий уровень сигнала цепи СО-потенциометра"); break;
-										case 0x1230: Error = _("Неисправность цепи управления главным реле"); break;
-										case 0x1335: Error = _("Положение дроссельной заслонки вне допустимого диапазона"); break;
-										case 0x1336: Error = _("Недопустимое расхождение показаний датчиков № 1 и № 2 положения дроссельной заслонки"); break;
-										case 0x1351: Error = _("Короткое замыкание в первичной цепи катушки зажигания цилиндров 1 и 4"); break;
-										case 0x1352: Error = _("Короткое замыкание в первичной цепи катушки зажигания цилиндров 2 и 3"); break;
-										case 0x1386: Error = _("Ошибка при выполнении внутреннего теста канала детонации"); break;
-										case 0x1388: Error = _("Положение педали ускорения вне допустимого диапазона"); break;
-										case 0x1389: Error = _("Частота вращения двигателя вне допустимого диапазона"); break;
-										case 0x1390: Error = _("Необратимое ограничение впрыска топлива в связи с неисправностями систем"); break;
-										case 0x1391: Error = _("Ошибка при выполнении программы мониторинга систем двигателя"); break;
-										case 0x1410: Error = _("Неисправность или короткое замыкание на источник бортовой сети цепи управления клапаном продувки адсорбера"); break;
-										case 0x1425: Error = _("Неисправность или короткое замыкание на массу цепи управления клапаном продувки адсорбера"); break;
-										case 0x1426: Error = _("Неисправность или обрыв цепи управления клапаном продувки адсорбера"); break;
-										case 0x1427: Error = _("Неисправность цепи управления клапаном продувки адсорбера"); break;
-										case 0x1500: Error = _("Обрыв цепи управления реле электробензонасоса"); break;
-										case 0x1501: Error = _("Короткое замыкание на массу цепи управления реле электробензонасоса"); break;
-										case 0x1502: Error = _("Короткое замыкание на источник бортовой сети цепи управления реле электробензонасоса"); break;
-										case 0x1509: Error = _("Перегрузка цепи управления регулятором холостого хода (РХХ)"); break;
-										case 0x1513: Error = _("Короткое замыкание на массу цепи управления регулятором холостого хода (РХХ)"); break;
-										case 0x1514: Error = _("Короткое замыкание на источник бортовой сети (или обрыв) цепи управления регулятором холостого хода (РХХ)"); break;
-										case 0x1530: Error = _("Неисправность цепи управления реле муфты кондиционера"); break;
-										case 0x1541: Error = _("Обрыв цепи управления реле электробензонасоса"); break;
-										case 0x1545: Error = _("Положение дроссельной заслонки вне допустимого диапазона"); break;
-										case 0x1558: Error = _("Начальное положение дроссельной заслонки вне допустимого диапазона"); break;
-										case 0x1559: Error = _("Недостоверное значение массового расхода воздуха через дроссель"); break;
-										case 0x1564: Error = _("Нарушение адаптации дросселя в связи с пониженным напряжением питания"); break;
-										case 0x1570: Error = _("Нет ответа от автомобильной противоугонной системы (АПС) или обрыв цепи"); break;
-										case 0x1571: Error = _("Использован незарегистрированный электронный ключ"); break;
-										case 0x1572: Error = _("Обрыв цепи или неисправность приемопередающей антенны иммобилайзера"); break;
-										case 0x1573: Error = _("Внутренняя неисправность блока АПС (иммобилайзера)"); break;
-										case 0x1574: Error = _("Попытка разблокирования  АПС (иммобилайзера)"); break;
-										case 0x1575: Error = _("Доступ к  АПС (иммобилайзеру) заблокирован контроллером"); break;
-										case 0x1578: Error = _("Недостоверность результатов переобучения дроссельной заслонки"); break;
-										case 0x1579: Error = _("Аварийное прекращение адаптации привода дроссельной заслонки в связи с внешними условиями"); break;
-										case 0x1600: Error = _("Нет связи с автомобильной противоугонной системой (АПС) или обрыв цепи (иммобилайзером)"); break;
-										case 0x1601: Error = _("Нет связи с автомобильной противоугонной системой (АПС) или обрыв цепи (иммобилайзером)"); break;
-										case 0x1602: Error = _("Пропадание напряжение бортовой сети в контроллере"); break;
-										case 0x1603: Error = _("Неисправность энергонезависимой памяти (EEPROM) контроллера"); break;
-										case 0x1606: Error = _("Низкий уровень или неверный сигнал в цепи датчика неровной дороги"); break;
-										case 0x1607: Error = _("Высокий уровень сигнала в цепи датчика неровной дороги"); break;
-										case 0x1612: Error = _("Несанкционированный сброс контроллера в рабочем состоянии"); break;
-										case 0x1616: Error = _("Низкий уровень сигнала датчика неровной дороги"); break;
-										case 0x1617: Error = _("Высокий уровень сигнала датчика неровной дороги"); break;
-										case 0x1620: Error = _("Неисправность ПЗУ контроллера"); break;
-										case 0x1621: Error = _("Неисправность ОЗУ контроллера"); break;
-										case 0x1622: Error = _("Неисправность энергонезависимой памяти (EEPROM) контроллера"); break;
-										case 0x1632: Error = _("Неисправность канала № 1 управления электроприводом дроссельной заслонки"); break;
-										case 0x1633: Error = _("Неисправность канала № 2 управления электроприводом дроссельной заслонки"); break;
-										case 0x1634: Error = _("Неисправность электропривода дроссельной заслонки в стартовом положении"); break;
-										case 0x1635: Error = _("Неисправность электропривода дроссельной заслонки в закрытом положении"); break;
-										case 0x1636: Error = _("Неисправность электропривода дроссельной заслонки в обесточенном положении"); break;
-										case 0x1640: Error = _("Ошибка записи/чтения внутреннего флэш-ОЗУ (EEPROM) контроллера"); break;
-										case 0x1689: Error = _("Ошибочные значения кодов в памяти неисправностей контроллера"); break;
-										case 0x1750: Error = _("Короткое замыкание на Бортсеть цепи № 1 управления моментным регулятором холостого хода"); break;
-										case 0x1751: Error = _("Обрыв цепи № 1 управления моментным регулятором холостого хода"); break;
-										case 0x1752: Error = _("Короткое замыкание на Массу цепи № 1 управления моментным регулятором холостого хода"); break;
-										case 0x1753: Error = _("Короткое замыкание на Бортсеть цепи № 2 управления моментным регулятором холостого хода"); break;
-										case 0x1754: Error = _("Обрыв цепи № 2 управления моментным регулятором холостого хода"); break;
-										case 0x1755: Error = _("Короткое замыкание на Массу цепи № 2 управления моментным регулятором холостого хода"); break;
-										case 0x2100: Error = _("Обрыв цепи управления электроприводом дроссельной заслонки"); break;
-										case 0x2102: Error = _("Короткое замыкание на Массу цепи управления электроприводом дроссельной заслонки"); break;
-										case 0x2103: Error = _("Короткое замыкание на Бортсеть цепи управления электроприводом дроссельной заслонки"); break;
-										case 0x2104: Error = _("Ограничение электропривода дроссельной заслонки режимом холостого хода"); break;
-										case 0x2105: Error = _("Ограничение электропривода дроссельной заслонки блокированием работы двигателя"); break;
-										case 0x2106: Error = _("Ограничение мощности электропривода дроссельной заслонки или неисправность цепи"); break;
-										case 0x2110: Error = _("Ограничение электропривода дроссельной заслонки предельной частотой вращения двигателя"); break;
-										case 0x2111: Error = _("Ошибка управления электроприводом дросселя заслонки при открытии"); break;
-										case 0x2112: Error = _("Ошибка управления электроприводом дросселя заслонки при закрытии"); break;
-										case 0x2120: Error = _("Неисправность цепи датчика № 1 положения  педали ускорения"); break;
-										case 0x2122: Error = _("Низкий уровень сигнала в цепи датчика № 1 положения педали ускорения"); break;
-										case 0x2123: Error = _("Высокий уровень сигнала в цепи датчика № 1 положения педали ускорения"); break;
-										case 0x2127: Error = _("Низкий уровень сигнала в цепи датчика № 2 положения педали ускорения"); break;
-										case 0x2128: Error = _("Высокий уровень сигнала в цепи датчика № 2 положения педали ускорения"); break;
-										case 0x2135: Error = _("Несовпадение показаний датчиков № 1 и 2 положения дроссельной заслонки"); break;
-										case 0x2138: Error = _("Несовпадение показаний датчиков № 1 и 2 положения педали ускорения"); break;
-										case 0x2173: Error = _("Высокий расход воздуха при управлении дроссельной заслонкой"); break;
-										case 0x2175: Error = _("Низкий расход воздуха при управлении дроссельной заслонкой"); break;
-										case 0x2187: Error = _("Система топливоподачи дрейфует от средней к бедной области на холостом ходу"); break;
-										case 0x2188: Error = _("Система топливоподачи дрейфует от средней к богатой области на холостом ходу"); break;
-										case 0x2195: Error = _("Нет совпадения сигналов датчиков кислорода № 1 и № 2"); break;
-										case 0x2270: Error = _("Сигнал датчика кислорода № 2 находится в состоянии бедно"); break;
-										case 0x2271: Error = _("Сигнал датчика кислорода № 2 находится в состоянии богато"); break;
-										case 0x2299: Error = _("Несоответствие сигналов выключателей педали тормоза и датчиков положения педали ускорения"); break;
-										case 0x2301: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 1(1/4)"); break;
-										case 0x2303: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 2(2/3)"); break;
-										case 0x2304: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 2(2/3)"); break;
-										case 0x2305: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 3(2/3)"); break;
-										case 0x2307: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 3(2/3) или 4(1/4)"); break;
-										case 0x2310: Error = _("Короткое замыкание на Бортсеть цепи катушки зажигания 4"); break;
-										default: Error = _("Невідома помилка."); break;
+										case 0x0030: Error = wxT("Неисправность цепи нагревателя датчика кислорода № 1"); break;
+										case 0x0031: Error = wxT("Обрыв или замыкание на Массу цепи  нагревателя датчика кислорода № 1"); break;
+										case 0x0032: Error = wxT("Короткое замыкание на Бортсеть цепи нагревателя датчика кислорода № 1"); break;
+										case 0x0036: Error = wxT("Неисправность цепи нагревателя датчика кислорода № 2"); break;
+										case 0x0037: Error = wxT("Обрыв или замыкание на Массу цепи нагревателя датчика кислорода № 2"); break;
+										case 0x0038: Error = wxT("Короткое замыкание на Бортсеть цепи нагревателя датчика кислорода № 2"); break;
+										case 0x0100: Error = wxT("Низкий или высокий уровень сигнала с датчика расхода воздуха."); break;
+										case 0x0101: Error = wxT("Выход сигнала датчика массового расхода воздуха за допустимый диапазон"); break;
+										case 0x0102: Error = wxT("Низкий уровень сигнала датчика массового расхода воздуха (ДМРВ)"); break;
+										case 0x0103: Error = wxT("Высокий уровень сигнала датчика массового расхода воздуха (ДМРВ)"); break;
+										case 0x0104: Error = wxT("Mass or Volume Air Flow Circuit Intermittent "); break;
+										case 0x0105: Error = wxT("Некорректный сигнал в цепи датчика абсолютного давления воздуха"); break;
+										case 0x0106: Error = wxT("Выход сигнала датчика абсолютного давления воздуха за допустимый диапазон"); break;
+										case 0x0107: Error = wxT("Низкий уровень сигнала цепи датчика абсолютного давления воздуха"); break;
+										case 0x0108: Error = wxT("Высокий уровень сигнала цепи датчика абсолютного давления воздуха"); break;
+										case 0x0109: Error = wxT("Manifold Absolute Pressure/Barometric Pressure Circuit Intermittent "); break;
+										case 0x0110: Error = wxT("Низкий или высокий уровень сигнала с датчика температуры воздуха."); break;
+										case 0x0111: Error = wxT("Intake Air Temperature Circuit Range/Performance Problem "); break;
+										case 0x0112: Error = wxT("Низкий уровень сигнала датчика температуры впускного коллектора (ДТВ)"); break;
+										case 0x0113: Error = wxT("Высокий уровень сигнала датчика температуры впускного коллектора (ДТВ)"); break;
+										case 0x0114: Error = wxT("Intake Air Temperature Circuit Intermittent "); break;
+										case 0x0115: Error = wxT("Выход сигнала датчика температуры охлаждающей жидкости (ДТОЖ) за допустимый диапазон"); break;
+										case 0x0116: Error = wxT("Выход сигнала датчика температуры охлаждающей жидкости (ДТОЖ) за допустимый диапазон"); break;
+										case 0x0117: Error = wxT("Низкий уровень сигнала датчика температуры охлаждающей жидкости (ДТОЖ)"); break;
+										case 0x0118: Error = wxT("Высокий уровень сигнала датчика температуры охлаждающей жидкости (ДТОЖ)"); break;
+										case 0x0119: Error = wxT("Engine Coolant Temperature Circuit Intermittent "); break;
+										case 0x0120: Error = wxT("Низкий или высокий уровень сигнала с датчика положения дросселя."); break;
+										case 0x0121: Error = wxT("Некорректный сигнал датчика № 1 положения дроссельной заслонки"); break;
+										case 0x0122: Error = wxT("Низкий уровень сигнала датчика положения дроссельной заслонки (ДПДЗ)"); break;
+										case 0x0123: Error = wxT("Высокий уровень сигнала датчика положения дроссельной заслонки (ДПДЗ)"); break;
+										case 0x0124: Error = wxT("Throttle Position Sensor/Switch A Circuit Intermittent "); break;
+										case 0x0125: Error = wxT("Insufficient Coolant Temperature for Closed Loop Fuel Control; ECT Excessive Time to Closed Loop Fuel Control"); break;
+										case 0x0126: Error = wxT("Insufficient Coolant Temperature for Stable Operation "); break;
+										case 0x0128: Error = wxT("Coolant Thermostat Malfunction "); break;
+										case 0x0129: Error = wxT("Barometric Pressure Too Low "); break;
+										case 0x0130: Error = wxT("Неисправность сигнальной цепи или потеря активности датчика кислорода № 1 (до нейтрализатора)"); break;
+										case 0x0131: Error = wxT("Низкий уровень сигнал датчика кислорода № 1 (до нейтрализатора)"); break;
+										case 0x0132: Error = wxT("Высокий уровень сигнала датчика кислорода № 1 (до нейтрализатора)"); break;
+										case 0x0133: Error = wxT("Медленный отклик датчика кислорода № 1 (до нейтрализатора) на изменение состава смеси"); break;
+										case 0x0134: Error = wxT("Потеря активности или обрыв цепи датчика кислорода № 1 (до нейтрализатора)"); break;
+										case 0x0135: Error = wxT("Неисправность цепи нагревателя датчика кислорода № 1 (до нейтрализатора)"); break;
+										case 0x0136: Error = wxT("Неисправность или замыкание на массу сигнальной цепи датчика кислорода № 2 (после нейтрализатора)"); break;
+										case 0x0137: Error = wxT("Низкий уровень сигнала датчика кислорода № 2 (после нейтрализатора)"); break;
+										case 0x0138: Error = wxT("Высокий уровень сигнала датчика кислорода № 2 (после нейтрализатора)"); break;
+										case 0x0139: Error = wxT("Медленный отклик датчика кислорода № 2 (после нейтрализатора) на изменение состава смеси"); break;
+										case 0x0140: Error = wxT("Потеря активности или обрыв цепи датчика кислорода № 2 (после нейтрализатора)"); break;
+										case 0x0141: Error = wxT("Неисправность нагревателя датчика кислорода № 2 (после нейтрализатора)"); break;
+										case 0x0142: Error = wxT("O2 Sensor Circuit Malfunction (Bank 1 Sensor 3) "); break;
+										case 0x0143: Error = wxT("O2 Sensor Circuit Low Voltage (Bank 1 Sensor 3) "); break;
+										case 0x0144: Error = wxT("O2 Sensor Circuit High Voltage (Bank 1 Sensor 3) "); break;
+										case 0x0145: Error = wxT("O2 Sensor Circuit Slow Response (Bank 1 Sensor 3) "); break;
+										case 0x0146: Error = wxT("O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 3) "); break;
+										case 0x0147: Error = wxT("O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 3) "); break;
+										case 0x0150: Error = wxT("O2 Sensor Circuit Malfunction (Bank 2 Sensor 1) "); break;
+										case 0x0151: Error = wxT("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1) "); break;
+										case 0x0152: Error = wxT("O2 Sensor Circuit High Voltage (Bank 2 Sensor 1) "); break;
+										case 0x0153: Error = wxT("O2 Sensor Circuit Slow Response (Bank 2 Sensor 1) "); break;
+										case 0x0154: Error = wxT("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1) "); break;
+										case 0x0155: Error = wxT("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1) "); break;
+										case 0x0156: Error = wxT("O2 Sensor Circuit Malfunction (Bank 2 Sensor 2) "); break;
+										case 0x0157: Error = wxT("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 2) "); break;
+										case 0x0158: Error = wxT("O2 Sensor Circuit High Voltage (Bank 2 Sensor 2) "); break;
+										case 0x0159: Error = wxT("O2 Sensor Circuit Slow Response (Bank 2 Sensor 2) "); break;
+										case 0x0160: Error = wxT("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2) "); break;
+										case 0x0161: Error = wxT("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2) "); break;
+										case 0x0162: Error = wxT("O2 Sensor Circuit Malfunction (Bank 2 Sensor 3) "); break;
+										case 0x0163: Error = wxT("O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3) "); break;
+										case 0x0164: Error = wxT("O2 Sensor Circuit High Voltage (Bank 2 Sensor 3) "); break;
+										case 0x0165: Error = wxT("O2 Sensor Circuit Slow Response (Bank 2 Sensor 3) "); break;
+										case 0x0166: Error = wxT("O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 3) "); break;
+										case 0x0167: Error = wxT("O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 3) "); break;
+										case 0x0170: Error = wxT("Fuel Trim Malfunction (Bank 1) "); break;
+										case 0x0171: Error = wxT("Система топливоподачи слишком бедная при ее максимальном обогащении"); break;
+										case 0x0172: Error = wxT("Система топливоподачи слишком богатая при ее максимальном обеднении"); break;
+										case 0x0173: Error = wxT("Fuel Trim Malfunction (Bank 2) "); break;
+										case 0x0174: Error = wxT("Fuel Trim too Lean (Bank 2) "); break;
+										case 0x0175: Error = wxT("Fuel Trim too Rich (Bank 2) "); break;
+										case 0x0176: Error = wxT("Fuel Composition Sensor Circuit Malfunction "); break;
+										case 0x0177: Error = wxT("Fuel Composition Sensor Circuit Range/Performance "); break;
+										case 0x0178: Error = wxT("Fuel Composition Sensor Circuit Low Input "); break;
+										case 0x0179: Error = wxT("Fuel Composition Sensor Circuit High Input "); break;
+										case 0x0180: Error = wxT("Fuel Temperature Sensor A Circuit Malfunction "); break;
+										case 0x0181: Error = wxT("Fuel Temperature Sensor A Circuit Range/Performance "); break;
+										case 0x0182: Error = wxT("Fuel Temperature Sensor A Circuit Low Input "); break;
+										case 0x0183: Error = wxT("Fuel Temperature Sensor A Circuit High Input "); break;
+										case 0x0184: Error = wxT("Fuel Temperature Sensor A Circuit Intermittent "); break;
+										case 0x0185: Error = wxT("Fuel Temperature Sensor B Circuit Malfunction "); break;
+										case 0x0186: Error = wxT("Fuel Temperature Sensor B Circuit Range/Performance "); break;
+										case 0x0187: Error = wxT("Fuel Temperature Sensor B Circuit Low Input "); break;
+										case 0x0188: Error = wxT("Fuel Temperature Sensor B Circuit High Input "); break;
+										case 0x0189: Error = wxT("Fuel Temperature Sensor B Circuit Intermittent "); break;
+										case 0x0190: Error = wxT("Fuel Rail Pressure Sensor Circuit Malfunction "); break;
+										case 0x0191: Error = wxT("Fuel Rail Pressure Sensor Circuit Range/Performance "); break;
+										case 0x0192: Error = wxT("Fuel Rail Pressure Sensor Circuit Low Input "); break;
+										case 0x0193: Error = wxT("Fuel Rail Pressure Sensor Circuit High Input "); break;
+										case 0x0194: Error = wxT("Fuel Rail Pressure Sensor Circuit Intermittent "); break;
+										case 0x0195: Error = wxT("Engine Oil Temperature Sensor Malfunction "); break;
+										case 0x0196: Error = wxT("Engine Oil Temperature Sensor Range/Performance "); break;
+										case 0x0197: Error = wxT("Engine Oil Temperature Sensor Low "); break;
+										case 0x0198: Error = wxT("Engine Oil Temperature Sensor High "); break;
+										case 0x0199: Error = wxT("Engine Oil Temperature Sensor Intermittent "); break;
+										case 0x0200: Error = wxT("Цепь управления форсунками неисправна"); break;
+										case 0x0201: Error = wxT("Неисправность или обрыв цепи управления форсункой 1"); break;
+										case 0x0202: Error = wxT("Неисправность или обрыв цепи управления форсункой 2"); break;
+										case 0x0203: Error = wxT("Неисправность или обрыв цепи управления форсункой 3"); break;
+										case 0x0204: Error = wxT("Неисправность или обрыв цепи управления форсункой 4"); break;
+										case 0x0205: Error = wxT("Injector Circuit Malfunction - Cylinder 5 "); break;
+										case 0x0206: Error = wxT("Injector Circuit Malfunction - Cylinder 6 "); break;
+										case 0x0207: Error = wxT("Injector Circuit Malfunction - Cylinder 7 "); break;
+										case 0x0208: Error = wxT("Injector Circuit Malfunction - Cylinder 8 "); break;
+										case 0x0209: Error = wxT("Injector Circuit Malfunction - Cylinder 9 "); break;
+										case 0x0210: Error = wxT("Injector Circuit Malfunction - Cylinder 10 "); break;
+										case 0x0211: Error = wxT("Injector Circuit Malfunction - Cylinder 11 "); break;
+										case 0x0212: Error = wxT("Injector Circuit Malfunction - Cylinder 12 "); break;
+										case 0x0213: Error = wxT("Cold Start Injector 1 Malfunction "); break;
+										case 0x0214: Error = wxT("Cold Start Injector 2 Malfunction "); break;
+										case 0x0215: Error = wxT("Engine Shutoff Solenoid Malfunction "); break;
+										case 0x0216: Error = wxT("Injection Timing Control Circuit Malfunction "); break;
+										case 0x0217: Error = wxT("Перегрев системы охлаждения двигателя"); break;
+										case 0x0218: Error = wxT("Transmission Over Temperature Condition "); break;
+										case 0x0219: Error = wxT("Превышение допустимой частоты вращения двигателя"); break;
+										case 0x0220: Error = wxT("Throttle/Petal Position Sensor/Switch B Circuit Malfunction "); break;
+										case 0x0221: Error = wxT("Throttle/Petal Position Sensor/Switch B Circuit Range/Performance Problem "); break;
+										case 0x0222: Error = wxT("Низкий уровень сигнала цепи датчика № 2 положения дроссельной заслонки"); break;
+										case 0x0223: Error = wxT("Высокий уровень сигнала цепи датчика № 2 положения дроссельной заслонки"); break;
+										case 0x0224: Error = wxT("Throttle/Petal Position Sensor/Switch B Circuit Intermittent "); break;
+										case 0x0225: Error = wxT("Throttle/Petal Position Sensor/Switch C Circuit Malfunction "); break;
+										case 0x0226: Error = wxT("Throttle/Petal Position Sensor/Switch C Circuit Range/Performance Problem "); break;
+										case 0x0227: Error = wxT("Throttle/Petal Position Sensor/Switch C Circuit Low Input "); break;
+										case 0x0228: Error = wxT("Throttle/Petal Position Sensor/Switch C Circuit High Input "); break;
+										case 0x0229: Error = wxT("Throttle/Petal Position Sensor/Switch C Circuit Intermittent "); break;
+										case 0x0230: Error = wxT("Неисправность цепи управления реле электробензонасоса"); break;
+										case 0x0231: Error = wxT("Fuel Pump Secondary Circuit Low "); break;
+										case 0x0232: Error = wxT("Fuel Pump Secondary Circuit High "); break;
+										case 0x0233: Error = wxT("Fuel Pump Secondary Circuit Intermittent "); break;
+										case 0x0234: Error = wxT("Engine Overboost Condition "); break;
+										case 0x0235: Error = wxT("Turbocharger Boost Sensor A Circuit Malfunction "); break;
+										case 0x0236: Error = wxT("Turbocharger Boost Sensor A Circuit Range/Performance "); break;
+										case 0x0237: Error = wxT("Turbocharger Boost Sensor A Circuit Low "); break;
+										case 0x0238: Error = wxT("Turbocharger Boost Sensor A Circuit High "); break;
+										case 0x0239: Error = wxT("Turbocharger Boost Sensor B Malfunction "); break;
+										case 0x0240: Error = wxT("Turbocharger Boost Sensor B Circuit Range/Performance "); break;
+										case 0x0241: Error = wxT("Turbocharger Boost Sensor B Circuit Low "); break;
+										case 0x0242: Error = wxT("Turbocharger Boost Sensor B Circuit High "); break;
+										case 0x0243: Error = wxT("Turbocharger Wastegate Solenoid A Malfunction "); break;
+										case 0x0244: Error = wxT("Turbocharger Wastegate Solenoid A Range/Performance "); break;
+										case 0x0245: Error = wxT("Turbocharger Wastegate Solenoid A Low "); break;
+										case 0x0246: Error = wxT("Turbocharger Wastegate Solenoid A High "); break;
+										case 0x0247: Error = wxT("Turbocharger Wastegate Solenoid B Malfunction "); break;
+										case 0x0248: Error = wxT("Turbocharger Wastegate Solenoid B Range/Performance "); break;
+										case 0x0249: Error = wxT("Turbocharger Wastegate Solenoid B Low "); break;
+										case 0x0250: Error = wxT("Turbocharger Wastegate Solenoid B High "); break;
+										case 0x0251: Error = wxT("Injection Pump Fuel Metering Control A Malfunction (Cam/Rotor/Injector)"); break;
+										case 0x0252: Error = wxT("Injection Pump Fuel Metering Control A Range/Performance (Cam/Rotor/Injector)"); break;
+										case 0x0253: Error = wxT("Injection Pump Fuel Metering Control A Low (Cam/Rotor/Injector)"); break;
+										case 0x0254: Error = wxT("Injection Pump Fuel Metering Control A High (Cam/Rotor/Injector)"); break;
+										case 0x0255: Error = wxT("Injection Pump Fuel Metering Control A Intermittent (Cam/Rotor/Injector)"); break;
+										case 0x0256: Error = wxT("Injection Pump Fuel Metering Control B Malfunction (Cam/Rotor/Injector)"); break;
+										case 0x0257: Error = wxT("Injection Pump Fuel Metering Control B Range/Performance (Cam/Rotor/Injector)"); break;
+										case 0x0258: Error = wxT("Injection Pump Fuel Metering Control B Low (Cam/Rotor/Injector)"); break;
+										case 0x0259: Error = wxT("Injection Pump Fuel Metering Control B High (Cam/Rotor/Injector)"); break;
+										case 0x0260: Error = wxT("Injection Pump Fuel Metering Control B Intermittent (Cam/Rotor/Injector)"); break;
+										case 0x0261: Error = wxT("Обрыв или короткое замыкание на Массу цепи управления форсункой 1"); break;
+										case 0x0262: Error = wxT("Короткое замыкание на Бортсеть цепи управления форсункой 1"); break;
+										case 0x0263: Error = wxT("Предельное падение крутящего момента в цилиндре 1 или неисправность драйвера форсунки 1"); break;
+										case 0x0264: Error = wxT("Короткое замыкание на Массу цепи управления форсункой 2"); break;
+										case 0x0265: Error = wxT("Короткое замыкание на Бортсеть цепи управления форсункой 2"); break;
+										case 0x0266: Error = wxT("Предельное падение крутящего момента в цилиндре 2 или неисправность драйвера форсунки 2"); break;
+										case 0x0267: Error = wxT("Короткое замыкание на Массу цепи управления форсункой 3"); break;
+										case 0x0268: Error = wxT("Короткое замыкание на Бортсеть цепи управления форсункой 3"); break;
+										case 0x0269: Error = wxT("Предельное падение крутящего момента в цилиндре 3 или неисправность драйвера форсунки 3"); break;
+										case 0x0270: Error = wxT("Короткое замыкание на Массу цепи управления форсункой 4"); break;
+										case 0x0271: Error = wxT("Короткое замыкание на Бортсеть цепи управления форсункой 4"); break;
+										case 0x0272: Error = wxT("Предельное падение крутящего момента в цилиндре 4 или неисправность драйвера форсунки 4"); break;
+										case 0x0273: Error = wxT("Cylinder 5 Injector Circuit Low "); break;
+										case 0x0274: Error = wxT("Cylinder 5 Injector Circuit High "); break;
+										case 0x0275: Error = wxT("Cylinder 5 Contribution/Balance Fault "); break;
+										case 0x0276: Error = wxT("Cylinder 6 Injector Circuit Low "); break;
+										case 0x0277: Error = wxT("Cylinder 6 Injector Circuit High "); break;
+										case 0x0278: Error = wxT("Cylinder 6 Contribution/Balance Fault "); break;
+										case 0x0279: Error = wxT("Cylinder 7 Injector Circuit Low "); break;
+										case 0x0280: Error = wxT("Cylinder 7 Injector Circuit High "); break;
+										case 0x0281: Error = wxT("Cylinder 7 Contribution/Balance Fault "); break;
+										case 0x0282: Error = wxT("Cylinder 8 Injector Circuit Low "); break;
+										case 0x0283: Error = wxT("Cylinder 8 Injector Circuit High "); break;
+										case 0x0284: Error = wxT("Cylinder 8 Contribution/Balance Fault "); break;
+										case 0x0285: Error = wxT("Cylinder 9 Injector Circuit Low "); break;
+										case 0x0286: Error = wxT("Cylinder 9 Injector Circuit High "); break;
+										case 0x0287: Error = wxT("Cylinder 9 Contribution/Balance Fault "); break;
+										case 0x0288: Error = wxT("Cylinder 10 Injector Circuit Low "); break;
+										case 0x0289: Error = wxT("Cylinder 10 Injector Circuit High "); break;
+										case 0x0290: Error = wxT("Cylinder 10 Contribution/Balance Fault "); break;
+										case 0x0291: Error = wxT("Cylinder 11 Injector Circuit Low "); break;
+										case 0x0292: Error = wxT("Cylinder 11 Injector Circuit High "); break;
+										case 0x0293: Error = wxT("Cylinder 11 Contribution/Balance Fault "); break;
+										case 0x0294: Error = wxT("Cylinder 12 Injector Circuit Low "); break;
+										case 0x0295: Error = wxT("Cylinder 12 Injector Circuit High "); break;
+										case 0x0296: Error = wxT("Cylinder 12 Contribution/Range Fault "); break;
+										case 0x0297: Error = wxT("Превышение допустимой скорости автомобиля"); break;
+										case 0x0300: Error = wxT("Обнаружены случайные/множественные пропуски зажигания"); break;
+										case 0x0301: Error = wxT("Пропуски воспламенения в цилиндре 1"); break;
+										case 0x0302: Error = wxT("Пропуски воспламенения в цилиндре 2"); break;
+										case 0x0303: Error = wxT("Пропуски воспламенения в цилиндре 3"); break;
+										case 0x0304: Error = wxT("Пропуски воспламенения в цилиндре 4"); break;
+										case 0x0305: Error = wxT("Cylinder 5 Misfire Detected "); break;
+										case 0x0306: Error = wxT("Cylinder 6 Misfire Detected "); break;
+										case 0x0307: Error = wxT("Cylinder 7 Misfire Detected "); break;
+										case 0x0308: Error = wxT("Cylinder 8 Misfire Detected "); break;
+										case 0x0309: Error = wxT("Cylinder 9 Misfire Detected "); break;
+										case 0x0310: Error = wxT("Cylinder 10 Misfire Detected "); break;
+										case 0x0311: Error = wxT("Cylinder 11 Misfire Detected "); break;
+										case 0x0312: Error = wxT("Cylinder 12 Misfire Detected "); break;
+										case 0x0320: Error = wxT("Ignition/Distributor Engine Speed Input Circuit Malfunction "); break;
+										case 0x0321: Error = wxT("Ignition/Distributor Engine Speed Input Circuit Range/Performance "); break;
+										case 0x0322: Error = wxT("Ignition/Distributor Engine Speed Input Circuit No Signal "); break;
+										case 0x0323: Error = wxT("Ignition/Distributor Engine Speed Input Circuit Intermittent "); break;
+										case 0x0325: Error = wxT("Неисправность или обрыв цепи датчика детонации"); break;
+										case 0x0326: Error = wxT("Knock Sensor 1 Circuit Range/Performance (Bank 1 or Single Sensor) "); break;
+										case 0x0327: Error = wxT("Низкий уровень сигнала датчика детонации (ДД)"); break;
+										case 0x0328: Error = wxT("Высокий уровень сигнала датчика детонации (ДД)"); break;
+										case 0x0329: Error = wxT("Knock Sensor 1 Circuit Intermittent (Bank 1 or Single Sensor) "); break;
+										case 0x0330: Error = wxT("Knock Sensor 2 Circuit Malfunction (Bank 2) "); break;
+										case 0x0331: Error = wxT("Knock Sensor 2 Circuit Range/Performance (Bank 2) "); break;
+										case 0x0332: Error = wxT("Knock Sensor 2 Circuit Low Input (Bank 2) "); break;
+										case 0x0333: Error = wxT("Knock Sensor 2 Circuit High Input (Bank 2) "); break;
+										case 0x0334: Error = wxT("Knock Sensor 2 Circuit Intermittent (Bank 2) "); break;
+										case 0x0335: Error = wxT("Неисправность или обрыв цепи датчика положения коленчатого вала (ДПКВ)"); break;
+										case 0x0336: Error = wxT("Сигнал датчика положения коленчатого вала (ДПКВ) выходит за допустимые пределы"); break;
+										case 0x0337: Error = wxT("Короткое замыкание на Массу цепи датчика положения коленчатого вала"); break;
+										case 0x0338: Error = wxT("Обрыв цепи датчика положения коленчатого вала"); break;
+										case 0x0339: Error = wxT("Ошибка синхронизации датчика положения коленчатого вала"); break;
+										case 0x0340: Error = wxT("Неисправность цепи датчика положения распределительного вала (датчика фазы)"); break;
+										case 0x0341: Error = wxT("Ошибка синхронизации датчика положения распределительного вала (датчика фазы)"); break;
+										case 0x0342: Error = wxT("Низкий уровень сигнала цепи датчика положения распределительного вала (датчика фазы)"); break;
+										case 0x0343: Error = wxT("Высокий уровень сигнала цепи датчика положения распределительного вала (датчика фазы)"); break;
+										case 0x0344: Error = wxT("Camshaft Position Sensor Circuit Intermittent "); break;
+										case 0x0350: Error = wxT("Замыкание цепи катушки зажигания."); break;
+										case 0x0351: Error = wxT("Обрыв первичной цепи катушки зажигания 1 (1/4)"); break;
+										case 0x0352: Error = wxT("Обрыв первичной цепи катушки зажигания 2 (2/3)"); break;
+										case 0x0353: Error = wxT("Обрыв первичной цепи катушки зажигания 3"); break;
+										case 0x0354: Error = wxT("Обрыв первичной цепи катушки зажигания 4"); break;
+										case 0x0355: Error = wxT("Ignition Coil E Primary/Secondary Circuit Malfunction "); break;
+										case 0x0356: Error = wxT("Ignition Coil F Primary/Secondary Circuit Malfunction "); break;
+										case 0x0357: Error = wxT("Ignition Coil G Primary/Secondary Circuit Malfunction "); break;
+										case 0x0358: Error = wxT("Ignition Coil H Primary/Secondary Circuit Malfunction "); break;
+										case 0x0359: Error = wxT("Ignition Coil I Primary/Secondary Circuit Malfunction "); break;
+										case 0x0360: Error = wxT("Ignition Coil J Primary/Secondary Circuit Malfunction "); break;
+										case 0x0361: Error = wxT("Ignition Coil K Primary/Secondary Circuit Malfunction "); break;
+										case 0x0362: Error = wxT("Ignition Coil L Primary/Secondary Circuit Malfunction "); break;
+										case 0x0370: Error = wxT("Timing Reference High Resolution Signal A Malfunction "); break;
+										case 0x0371: Error = wxT("Timing Reference High Resolution Signal A Too Many Pulses "); break;
+										case 0x0372: Error = wxT("Timing Reference High Resolution Signal A Too Few Pulses "); break;
+										case 0x0373: Error = wxT("Timing Reference High Resolution Signal A Intermittent/Erratic Pulses "); break;
+										case 0x0374: Error = wxT("Timing Reference High Resolution Signal A No Pulses "); break;
+										case 0x0375: Error = wxT("Timing Reference High Resolution Signal B Malfunction "); break;
+										case 0x0376: Error = wxT("Timing Reference High Resolution Signal B Too Many Pulses "); break;
+										case 0x0377: Error = wxT("Timing Reference High Resolution Signal B Too Few Pulses "); break;
+										case 0x0378: Error = wxT("Timing Reference High Resolution Signal B Intermittent/Erratic Pulses "); break;
+										case 0x0379: Error = wxT("Timing Reference High Resolution Signal B No Pulses "); break;
+										case 0x0380: Error = wxT("Glow Plug/Heater Circuit A Malfunction"); break;
+										case 0x0381: Error = wxT("Glow Plug/Heater Indicator Circuit Malfunction "); break;
+										case 0x0382: Error = wxT("Exhaust Gas Recirculation Flow Malfunction "); break;
+										case 0x0385: Error = wxT("Crankshaft Position Sensor B Circuit Malfunction "); break;
+										case 0x0386: Error = wxT("Crankshaft Position Sensor B Circuit Range/Performance "); break;
+										case 0x0387: Error = wxT("Crankshaft Position Sensor B Circuit Low Input "); break;
+										case 0x0388: Error = wxT("Crankshaft Position Sensor B Circuit High Input "); break;
+										case 0x0389: Error = wxT("Crankshaft Position Sensor B Circuit Intermittent "); break;
+										case 0x0400: Error = wxT("Exhaust Gas Recirculation Flow Malfunction "); break;
+										case 0x0401: Error = wxT("Exhaust Gas Recirculation Flow Insufficient Detected"); break;
+										case 0x0402: Error = wxT("Exhaust Gas Recirculation Flow Excessive Detected "); break;
+										case 0x0403: Error = wxT("Обрыв или замыкание цепи клапана рециркуляции."); break;
+										case 0x0404: Error = wxT("Exhaust Gas Recirculation Circuit Range/Performance "); break;
+										case 0x0405: Error = wxT("Низкий или высокий уровень сигнала с датчика положения клапана рециркуляции."); break;
+										case 0x0406: Error = wxT("Exhaust Gas Recirculation Sensor A Circuit High "); break;
+										case 0x0407: Error = wxT("Exhaust Gas Recirculation Sensor B Circuit Low "); break;
+										case 0x0408: Error = wxT("Exhaust Gas Recirculation Sensor B Circuit High "); break;
+										case 0x0410: Error = wxT("Secondary Air Injection System Malfunction "); break;
+										case 0x0411: Error = wxT("Secondary Air Injection System Incorrect Flow Detected "); break;
+										case 0x0412: Error = wxT("Secondary Air Injection System Switching Valve A Circuit Malfunction "); break;
+										case 0x0413: Error = wxT("Secondary Air Injection System Switching Valve A Circuit Open "); break;
+										case 0x0414: Error = wxT("Secondary Air Injection System Switching Valve A Circuit Shorted "); break;
+										case 0x0415: Error = wxT("Secondary Air Injection System Switching Valve B Circuit Malfunction "); break;
+										case 0x0416: Error = wxT("Secondary Air Injection System Switching Valve B Circuit Open "); break;
+										case 0x0417: Error = wxT("Secondary Air Injection System Switching Valve B Circuit Shorted "); break;
+										case 0x0418: Error = wxT("Secondary Air Injection System Relay A Circuit Malfunction"); break;
+										case 0x0419: Error = wxT("Secondary Air Injection System Relay B Circuit Malfunction"); break;
+										case 0x0420: Error = wxT("Эффективность нейтрализатора ниже допустимой нормы"); break;
+										case 0x0421: Error = wxT("Warm Up Catalyst Efficiency Below Threshold (Bank 1) "); break;
+										case 0x0422: Error = wxT("Эффективность нейтрализатора ниже допустимой нормы"); break;
+										case 0x0423: Error = wxT("Heated Catalyst Efficiency Below Threshold (Bank 1) "); break;
+										case 0x0424: Error = wxT("Heated Catalyst Temperature Below Threshold (Bank 1) "); break;
+										case 0x0426: Error = wxT("Catalyst Temperature Sensor Range/Performance (Bank 1) "); break;
+										case 0x0427: Error = wxT("Catalyst Temperature Sensor Low Input (Bank 1) "); break;
+										case 0x0428: Error = wxT("Catalyst Temperature Sensor High Input (Bank 1) "); break;
+										case 0x0430: Error = wxT("Catalyst System Efficiency Below Threshold (Bank 2) "); break;
+										case 0x0431: Error = wxT("Warm Up Catalyst Efficiency Below Threshold (Bank 2) "); break;
+										case 0x0432: Error = wxT("Main Catalyst Efficiency Below Threshold (Bank 2) "); break;
+										case 0x0433: Error = wxT("Heated Catalyst Efficiency Below Threshold (Bank 2) "); break;
+										case 0x0434: Error = wxT("Heated Catalyst Temperature Below Threshold (Bank 2) "); break;
+										case 0x0436: Error = wxT("Catalyst Temperature Sensor Range/Performance (Bank 2) "); break;
+										case 0x0437: Error = wxT("Catalyst Temperature Sensor Low Input (Bank 2) "); break;
+										case 0x0438: Error = wxT("Catalyst Temperature Sensor High Input (Bank 2) "); break;
+										case 0x0440: Error = wxT("Evaporative Emission Control System Malfunction "); break;
+										case 0x0441: Error = wxT("Некорректный расход воздуха через клапан продувки адсорбера"); break;
+										case 0x0442: Error = wxT("Evaporative Emission Control System Leak Detected (small leak) "); break;
+										case 0x0443: Error = wxT("Неисправность цепи управления клапаном продувки адсорбера"); break;
+										case 0x0444: Error = wxT("Короткое замыкание на источник бортовой сети (или обрыв) цепи управления клапаном продувки адсорбера"); break;
+										case 0x0445: Error = wxT("Короткое замыкание на массу цепи управления клапаном продувки адсорбера"); break;
+										case 0x0446: Error = wxT("Обрыв или замыкание цепи клапана продувки адсорбера."); break;
+										case 0x0447: Error = wxT("Evaporative Emission Control System Vent Control Circuit Open "); break;
+										case 0x0448: Error = wxT("Evaporative Emission Control System Vent Control Circuit Shorted "); break;
+										case 0x0449: Error = wxT("Evaporative Emission Control System Vent Valve/Solenoid Circuit Malfunction "); break;
+										case 0x0450: Error = wxT("Evaporative Emission Control System Pressure Sensor Malfunction "); break;
+										case 0x0451: Error = wxT("Evaporative Emission Control System Pressure Sensor Range/Performance "); break;
+										case 0x0452: Error = wxT("Evaporative Emission Control System Pressure Sensor Low Input "); break;
+										case 0x0453: Error = wxT("Evaporative Emission Control System Pressure Sensor High Input "); break;
+										case 0x0454: Error = wxT("Evaporative Emission Control System Pressure Sensor Intermittent "); break;
+										case 0x0455: Error = wxT("Evaporative Emission Control System Leak Detected (gross leak) "); break;
+										case 0x0460: Error = wxT("Fuel Level Sensor Circuit Malfunction "); break;
+										case 0x0461: Error = wxT("Fuel Level Sensor Circuit Range/Performance "); break;
+										case 0x0462: Error = wxT("Fuel Level Sensor Circuit Low Input "); break;
+										case 0x0463: Error = wxT("Fuel Level Sensor Circuit High Input "); break;
+										case 0x0464: Error = wxT("Fuel Level Sensor Circuit Intermittent "); break;
+										case 0x0465: Error = wxT("Purge Flow Sensor Circuit Malfunction "); break;
+										case 0x0466: Error = wxT("Purge Flow Sensor Circuit Range/Performance "); break;
+										case 0x0467: Error = wxT("Purge Flow Sensor Circuit Low Input "); break;
+										case 0x0468: Error = wxT("Purge Flow Sensor Circuit High Input "); break;
+										case 0x0469: Error = wxT("Purge Flow Sensor Circuit Intermittent "); break;
+										case 0x0470: Error = wxT("Exhaust Pressure Sensor Malfunction "); break;
+										case 0x0471: Error = wxT("Exhaust Pressure Sensor Range/Performance "); break;
+										case 0x0472: Error = wxT("Exhaust Pressure Sensor Low "); break;
+										case 0x0473: Error = wxT("Exhaust Pressure Sensor High "); break;
+										case 0x0474: Error = wxT("Exhaust Pressure Sensor Intermittent "); break;
+										case 0x0475: Error = wxT("Exhaust Pressure Control Valve Malfunction "); break;
+										case 0x0476: Error = wxT("Exhaust Pressure Control Valve Range/Performance "); break;
+										case 0x0477: Error = wxT("Exhaust Pressure Control Valve Low "); break;
+										case 0x0478: Error = wxT("Exhaust Pressure Control Valve High "); break;
+										case 0x0479: Error = wxT("Exhaust Pressure Control Valve Intermittent "); break;
+										case 0x0480: Error = wxT("Неисправность цепи управления реле вентилятора № 1 охлаждения"); break;
+										case 0x0481: Error = wxT("Неисправность цепи управления реле вентилятора № 2 охлаждения"); break;
+										case 0x0482: Error = wxT("Cooling Fan 3 Control Circuit Malfunction "); break;
+										case 0x0483: Error = wxT("Cooling Fan Rationality Check Malfunction "); break;
+										case 0x0484: Error = wxT("Cooling Fan Circuit Over Current "); break;
+										case 0x0485: Error = wxT("Cooling Fan Power/Ground Circuit Malfunction "); break;
+										case 0x0500: Error = wxT("Неисправность цепи или нет сигнала от датчика скорости автомобиля"); break;
+										case 0x0501: Error = wxT("Неисправность цепи датчика скорости автомобиля"); break;
+										case 0x0502: Error = wxT("Vehicle Speed Sensor Low Input "); break;
+										case 0x0503: Error = wxT("Прерывающийся сигнал датчика скорости автомобиля"); break;
+										case 0x0504: Error = wxT("Некорректный сигнал выключателей педали тормоза"); break;
+										case 0x0505: Error = wxT("Неисправность регулятора холостого хода. Обрыв или замыкание цепи РХХ. Перегрев драйвера РХХ."); break;
+										case 0x0506: Error = wxT("Низкие обороты холостого хода (регулятор холостого хода заблокирован)"); break;
+										case 0x0507: Error = wxT("Высокие обороты холостого хода (регулятор холостого хода заблокирован)"); break;
+										case 0x0508: Error = wxT("Короткое замыкание на Массу цепи управления шаговым регулятором холостого хода"); break;
+										case 0x0509: Error = wxT("Короткое замыкание на Бортсеть цепи управления шаговым регулятором холостого хода"); break;
+										case 0x0510: Error = wxT("Closed Throttle Position Switch Malfunction "); break;
+										case 0x0511: Error = wxT("Обрыв цепи управления шаговым регулятором холостого хода"); break;
+										case 0x0520: Error = wxT("Engine Oil Pressure Sensor/Switch Circuit Malfunction "); break;
+										case 0x0521: Error = wxT("Engine Oil Pressure Sensor/Switch Circuit Range/Performance "); break;
+										case 0x0522: Error = wxT("Engine Oil Pressure Sensor/Switch Circuit Low Voltage "); break;
+										case 0x0523: Error = wxT("Engine Oil Pressure Sensor/Switch Circuit High Voltage "); break;
+										case 0x0530: Error = wxT("A/C Refrigerant Pressure Sensor Circuit Malfunction "); break;
+										case 0x0531: Error = wxT("A/C Refrigerant Pressure Sensor Circuit Range/Performance "); break;
+										case 0x0532: Error = wxT("A/C Refrigerant Pressure Sensor Circuit Low Input "); break;
+										case 0x0533: Error = wxT("A/C Refrigerant Pressure Sensor Circuit High Input "); break;
+										case 0x0534: Error = wxT("Air Conditioner Refrigerant Charge Loss"); break;
+										case 0x0550: Error = wxT("Power Steering Pressure Sensor Circuit Malfunction"); break;
+										case 0x0551: Error = wxT("Power Steering Pressure Sensor Circuit Range/Performance"); break;
+										case 0x0552: Error = wxT("Power Steering Pressure Sensor Circuit Low Input"); break;
+										case 0x0553: Error = wxT("Power Steering Pressure Sensor Circuit High Input"); break;
+										case 0x0554: Error = wxT("Power Steering Pressure Sensor Circuit Intermittent"); break;
+										case 0x0560: Error = wxT("Напряжение бортовой сети ниже порога работоспособности системы"); break;
+										case 0x0561: Error = wxT("System Voltage Unstable"); break;
+										case 0x0562: Error = wxT("Пониженное напряжение бортовой сети"); break;
+										case 0x0563: Error = wxT("Повышенное напряжение бортовой сети"); break;
+										case 0x0565: Error = wxT("Cruise Control On Signal Malfunction"); break;
+										case 0x0566: Error = wxT("Cruise Control Off Signal Malfunction"); break;
+										case 0x0567: Error = wxT("Cruise Control Resume Signal Malfunction"); break;
+										case 0x0568: Error = wxT("Cruise Control Set Signal Malfunction"); break;
+										case 0x0569: Error = wxT("Cruise Control Coast Signal Malfunction"); break;
+										case 0x0570: Error = wxT("Cruise Control Accel Signal Malfunction"); break;
+										case 0x0571: Error = wxT("Cruise Control/Brake Switch A Circuit Malfunction"); break;
+										case 0x0572: Error = wxT("Cruise Control/Brake Switch A Circuit Low"); break;
+										case 0x0573: Error = wxT("Cruise Control/Brake Switch A Circuit High"); break;
+										case 0x0600: Error = wxT("Serial Communication Link Malfunction "); break;
+										case 0x0601: Error = wxT("Неисправность ПЗУ контроллера (ошибка контрольной суммы)"); break;
+										case 0x0602: Error = wxT("Неисправность ОЗУ контроллера"); break;
+										case 0x0603: Error = wxT("Ошибка записи/чтения внешнего ОЗУ контроллера"); break;
+										case 0x0604: Error = wxT("Ошибка записи/чтения внутреннего ОЗУ контроллера"); break;
+										case 0x0605: Error = wxT("Неисправность флэш-ПЗУ контроллера (ошибка контрольной суммы)"); break;
+										case 0x0606: Error = wxT("Неисправность контроллера или ошибка при его инициализации"); break;
+										case 0x0607: Error = wxT("Неверный сигнал канала детонации контроллера"); break;
+										case 0x0608: Error = wxT("Control Module VSS Output A Malfunction"); break;
+										case 0x0609: Error = wxT("Control Module VSS Output B Malfunction"); break;
+										case 0x0615: Error = wxT("Обрыв цепи управления дополнительным реле стартера"); break;
+										case 0x0616: Error = wxT("Короткое замыкание на Массу цепи управления дополнительным реле стартера"); break;
+										case 0x0617: Error = wxT("Короткое замыкание на Бортсеть цепи управления дополнительным реле стартера"); break;
+										case 0x0618: Error = wxT("Неисправность внешнего EEPROM контроллера"); break;
+										case 0x0620: Error = wxT("Generator Control Circuit Malfunction "); break;
+										case 0x0621: Error = wxT("Generator Lamp L Control Circuit Malfunction"); break;
+										case 0x0622: Error = wxT("Generator Field F Control Circuit Malfunction"); break;
+										case 0x0627: Error = wxT("Обрыв цепи управления реле электробензонасоса"); break;
+										case 0x0628: Error = wxT("Короткое замыкание на Массу цепи управления реле электробензонасоса"); break;
+										case 0x0629: Error = wxT("Короткое замыкание на Бортсеть цепи управления реле электробензонасоса"); break;
+										case 0x0630: Error = wxT("Некорректная запись или отсутствие VIN-код автомобиля"); break;
+										case 0x0645: Error = wxT("Обрыв цепи управления реле муфты кондиционера"); break;
+										case 0x0646: Error = wxT("Обрыв или короткое замыкание на Массу цепи реле муфты кондиционера"); break;
+										case 0x0647: Error = wxT("Короткое замыкание на Бортсеть цепи реле муфты кондиционера"); break;
+										case 0x0650: Error = wxT("Неисправность цепи управления лампой MIL (Check engine)"); break;
+										case 0x0654: Error = wxT("Неисправность цепи управления тахометром панели приборов"); break;
+										case 0x0655: Error = wxT("Engine Hot Lamp Output Control Circuit Malfucntion "); break;
+										case 0x0656: Error = wxT("Fuel Level Output Circuit Malfunction "); break;
+										case 0x0657: Error = wxT("Неисправность цепи управления расходомером или указателем температуры"); break;
+										case 0x0685: Error = wxT("Обрыв цепи управления главным реле"); break;
+										case 0x0687: Error = wxT("Короткое замыкание на Бортсеть цепи управления главным реле"); break;
+										case 0x0688: Error = wxT("Обрыв силовой цепи с выхода главного реле"); break;
+										case 0x0690: Error = wxT("Короткое замыкание на Бортсеть силовой цепи главного реле"); break;
+										case 0x0691: Error = wxT("Обрыв или короткое замыкание на Массу цепи управления реле электровентилятора № 1"); break;
+										case 0x0692: Error = wxT("Короткое замыкание на Бортсеть цепи управления реле электровентилятора № 1"); break;
+										case 0x0693: Error = wxT("Обрыв или короткое замыкание на Массу цепи управления реле электровентилятора № 2 "); break;
+										case 0x0694: Error = wxT("Короткое замыкание на Бортсеть цепи управления реле электровентилятора № 2"); break;
+										case 0x0700: Error = wxT("Transmission Control System Malfunction "); break;
+										case 0x0701: Error = wxT("Transmission Control System Range/Performance "); break;
+										case 0x0702: Error = wxT("Transmission Control System Electrical "); break;
+										case 0x0703: Error = wxT("Torque Converter/Brake Switch B Circuit Malfunction "); break;
+										case 0x0704: Error = wxT("Clutch Switch Input Circuit Malfunction "); break;
+										case 0x0705: Error = wxT("Transmission Range Sensor Circuit malfunction (PRNDL Input) "); break;
+										case 0x0706: Error = wxT("Transmission Range Sensor Circuit Range/Performance "); break;
+										case 0x0707: Error = wxT("Transmission Range Sensor Circuit Low Input "); break;
+										case 0x0708: Error = wxT("Transmission Range Sensor Circuit High Input "); break;
+										case 0x0709: Error = wxT("Transmission Range Sensor Circuit Intermittent "); break;
+										case 0x0710: Error = wxT("Transmission Fluid Temperature Sensor Circuit Malfunction "); break;
+										case 0x0711: Error = wxT("Transmission Fluid Temperature Sensor Circuit Range/Performance "); break;
+										case 0x0712: Error = wxT("Transmission Fluid Temperature Sensor Circuit Low Input "); break;
+										case 0x0713: Error = wxT("Transmission Fluid Temperature Sensor Circuit High Input "); break;
+										case 0x0714: Error = wxT("Transmission Fluid Temperature Sensor Circuit Intermittent "); break;
+										case 0x0715: Error = wxT("Input/Turbine Speed Sensor Circuit Malfunction "); break;
+										case 0x0716: Error = wxT("Input/Turbine Speed Sensor Circuit Range/Performance "); break;
+										case 0x0717: Error = wxT("Input/Turbine Speed Sensor Circuit No Signal "); break;
+										case 0x0718: Error = wxT("Input/Turbine Speed Sensor Circuit Intermittent "); break;
+										case 0x0719: Error = wxT("Torque Converter/Brake Switch B Circuit Low "); break;
+										case 0x0720: Error = wxT("Output Speed Sensor Circuit Malfunction "); break;
+										case 0x0721: Error = wxT("Output Speed Sensor Range/Performance "); break;
+										case 0x0722: Error = wxT("Output Speed Sensor No Signal "); break;
+										case 0x0723: Error = wxT("Output Speed Sensor Intermittent "); break;
+										case 0x0724: Error = wxT("Torque Converter/Brake Switch B Circuit High "); break;
+										case 0x0725: Error = wxT("Engine Speed input Circuit Malfunction "); break;
+										case 0x0726: Error = wxT("Engine Speed Input Circuit Range/Performance "); break;
+										case 0x0727: Error = wxT("Engine Speed Input Circuit No Signal "); break;
+										case 0x0728: Error = wxT("Engine Speed Input Circuit Intermittent "); break;
+										case 0x0730: Error = wxT("Incorrect Gear Ratio "); break;
+										case 0x0731: Error = wxT("Gear 1 Incorrect ratio "); break;
+										case 0x0732: Error = wxT("Gear 2 Incorrect ratio "); break;
+										case 0x0733: Error = wxT("Gear 3 Incorrect ratio "); break;
+										case 0x0734: Error = wxT("Gear 4 Incorrect ratio "); break;
+										case 0x0735: Error = wxT("Gear 5 Incorrect ratio "); break;
+										case 0x0736: Error = wxT("Reverse incorrect gear ratio "); break;
+										case 0x0740: Error = wxT("Torque Converter Clutch Circuit Malfuction "); break;
+										case 0x0741: Error = wxT("Torque Converter Clutch Circuit Performance or Stuck Off "); break;
+										case 0x0742: Error = wxT("Torque Converter Clutch Circuit Stuck On "); break;
+										case 0x0743: Error = wxT("Torque Converter Clutch Circuit Electrical "); break;
+										case 0x0744: Error = wxT("Torque Converter Clutch Circuit Intermittent "); break;
+										case 0x0745: Error = wxT("Pressure Control Solenoid Malfunction "); break;
+										case 0x0746: Error = wxT("Pressure Control Solenoid Performance or Stuck Off "); break;
+										case 0x0747: Error = wxT("Pressure Control Solenoid Stuck On "); break;
+										case 0x0748: Error = wxT("Pressure Control Solenoid Electrical "); break;
+										case 0x0749: Error = wxT("Pressure Control Solenoid Intermittent "); break;
+										case 0x0750: Error = wxT("Shift Solenoid A Malfunction "); break;
+										case 0x0751: Error = wxT("Shift Solenoid A Performance or Stuck Off/1 - 2 Shift Solenoid Valve Performance "); break;
+										case 0x0752: Error = wxT("Shift Solenoid A Stuck On "); break;
+										case 0x0753: Error = wxT("Shift Solenoid A Electrical/1 - 2 Shift Solenoid Circuit Electrical "); break;
+										case 0x0754: Error = wxT("Shift Solenoid A Intermittent "); break;
+										case 0x0755: Error = wxT("Shift Solenoid B Malfunction "); break;
+										case 0x0756: Error = wxT("Shift Solenoid B Performance or Stuck Off/2 - 3 Shift Solenoid Valve Performance "); break;
+										case 0x0757: Error = wxT("Shift Solenoid B Stuck On "); break;
+										case 0x0758: Error = wxT("Shift Solenoid B Electrical/2 - 3 Shift Solenoid Circuit Electrical "); break;
+										case 0x0759: Error = wxT("Shift Solenoid B Intermittent "); break;
+										case 0x0760: Error = wxT("Shift Solenoid C Malfunction "); break;
+										case 0x0761: Error = wxT("Shift Solenoid C Performance or Stuck Off "); break;
+										case 0x0762: Error = wxT("Shift Solenoid C Stuck On "); break;
+										case 0x0763: Error = wxT("Shift Solenoid C Electrical "); break;
+										case 0x0764: Error = wxT("Shift Solenoid C Intermittent "); break;
+										case 0x0765: Error = wxT("Shift Solenoid D Malfunction "); break;
+										case 0x0766: Error = wxT("Shift Solenoid D Performance or Stuck Off "); break;
+										case 0x0767: Error = wxT("Shift Solenoid D Stuck On "); break;
+										case 0x0768: Error = wxT("Shift Solenoid D Electrical "); break;
+										case 0x0769: Error = wxT("Shift Solenoid D Intermittent "); break;
+										case 0x0770: Error = wxT("Shift Solenoid E Malfunction "); break;
+										case 0x0771: Error = wxT("Shift Solenoid E Performance or Stuck Off "); break;
+										case 0x0772: Error = wxT("Shift Solenoid E Stuck On "); break;
+										case 0x0773: Error = wxT("Shift Solenoid E Electrical "); break;
+										case 0x0774: Error = wxT("Shift Solenoid E Intermittent "); break;
+										case 0x0775: Error = wxT("Pressure Control Solenoid B Malfunction"); break;
+										case 0x0776: Error = wxT("Pressure Control Solenoid B Performance "); break;
+										case 0x0777: Error = wxT("Pressure Control Solenoid B Stuck On "); break;
+										case 0x0778: Error = wxT("Pressure Control Solenoid B Electrical "); break;
+										case 0x0779: Error = wxT("Pressure Control Solenoid B Intermittent "); break;
+										case 0x0780: Error = wxT("Shift Malfunction "); break;
+										case 0x0781: Error = wxT("1 - 2 Shift Malfunction "); break;
+										case 0x0782: Error = wxT("2 - 3 Shift Malfunction "); break;
+										case 0x0783: Error = wxT("3 - 4 Shift Malfunction "); break;
+										case 0x0784: Error = wxT("4 - 5 Shift Malfunction "); break;
+										case 0x0785: Error = wxT("Shift/Timing Solenoid Malfunction/ 3 - 2 Shift Solenoid Circuit Electrical "); break;
+										case 0x0786: Error = wxT("Shift/Timing Solenoid Range/Performance "); break;
+										case 0x0787: Error = wxT("Shift/Timing Solenoid Low "); break;
+										case 0x0788: Error = wxT("Shift/Timing Solenoid High "); break;
+										case 0x0789: Error = wxT("Shift/Timing Solenoid Intermittent "); break;
+										case 0x0790: Error = wxT("Normal/Performance Switch Circuit Malfunction"); break;
+										case 0x0801: Error = wxT("Reverse Inhibit Control Circuit Malfunction "); break;
+										case 0x0803: Error = wxT("1 - 4 Upshift (Skip Shift) Solenoid Control Circuit Malfunction "); break;
+										case 0x0804: Error = wxT("1 - 4 Upshift (Skip Shift) Lamp Control Circuit Malfunction"); break;
+										case 0x1102: Error = wxT("Низкое сопротивление нагревателя датчика кислорода № 1 до нейтрализатора"); break;
+										case 0x1115: Error = wxT("Неисправность цепи управления нагревом датчика кислорода № 1 до нейтрализатора"); break;
+										case 0x1123: Error = wxT("Смесь богатая - аддитивная коррекция топливно-воздушной смеси по воздуху превышает установленный порог"); break;
+										case 0x1124: Error = wxT("Смесь бедная - аддитивная коррекция топливно-воздушной смеси по воздуху превышает установленный порог"); break;
+										case 0x1127: Error = wxT("Смесь богатая - мультипликативная коррекция состава топливно-воздушной смеси превышает установленный порог"); break;
+										case 0x1128: Error = wxT("Смесь бедная - мультипликативная коррекция состава топливно-воздушной смеси превышает установленный порог"); break;
+										case 0x1135: Error = wxT("Неисправность цепи нагревателя датчика кислорода № 1"); break;
+										case 0x1136: Error = wxT("Смесь богатая - аддитивная коррекция топливно-воздушной смеси по топливу превышает установленный порог"); break;
+										case 0x1137: Error = wxT("Смесь бедная - аддитивная коррекция топливно-воздушной смеси по топливу превышает установленный порог"); break;
+										case 0x1140: Error = wxT("Неверный сигнал датчика массового расхода воздуха (ДМРВ), измеренный параметр нагрузки отличается от расчетного"); break;
+										case 0x1141: Error = wxT("Неисправность цепи нагревателя датчика кислорода № 2"); break;
+										case 0x1170: Error = wxT("Низкий или высокий уровень сигнала с потенциометра коррекции СО."); break;
+										case 0x1171: Error = wxT("Низкий уровень сигнала цепи СО-потенциометра"); break;
+										case 0x1172: Error = wxT("Высокий уровень сигнала цепи СО-потенциометра"); break;
+										case 0x1230: Error = wxT("Неисправность цепи управления главным реле"); break;
+										case 0x1335: Error = wxT("Положение дроссельной заслонки вне допустимого диапазона"); break;
+										case 0x1336: Error = wxT("Недопустимое расхождение показаний датчиков № 1 и № 2 положения дроссельной заслонки"); break;
+										case 0x1351: Error = wxT("Короткое замыкание в первичной цепи катушки зажигания цилиндров 1 и 4"); break;
+										case 0x1352: Error = wxT("Короткое замыкание в первичной цепи катушки зажигания цилиндров 2 и 3"); break;
+										case 0x1386: Error = wxT("Ошибка при выполнении внутреннего теста канала детонации"); break;
+										case 0x1388: Error = wxT("Положение педали ускорения вне допустимого диапазона"); break;
+										case 0x1389: Error = wxT("Частота вращения двигателя вне допустимого диапазона"); break;
+										case 0x1390: Error = wxT("Необратимое ограничение впрыска топлива в связи с неисправностями систем"); break;
+										case 0x1391: Error = wxT("Ошибка при выполнении программы мониторинга систем двигателя"); break;
+										case 0x1410: Error = wxT("Неисправность или короткое замыкание на источник бортовой сети цепи управления клапаном продувки адсорбера"); break;
+										case 0x1425: Error = wxT("Неисправность или короткое замыкание на массу цепи управления клапаном продувки адсорбера"); break;
+										case 0x1426: Error = wxT("Неисправность или обрыв цепи управления клапаном продувки адсорбера"); break;
+										case 0x1427: Error = wxT("Неисправность цепи управления клапаном продувки адсорбера"); break;
+										case 0x1500: Error = wxT("Обрыв цепи управления реле электробензонасоса"); break;
+										case 0x1501: Error = wxT("Короткое замыкание на массу цепи управления реле электробензонасоса"); break;
+										case 0x1502: Error = wxT("Короткое замыкание на источник бортовой сети цепи управления реле электробензонасоса"); break;
+										case 0x1509: Error = wxT("Перегрузка цепи управления регулятором холостого хода (РХХ)"); break;
+										case 0x1513: Error = wxT("Короткое замыкание на массу цепи управления регулятором холостого хода (РХХ)"); break;
+										case 0x1514: Error = wxT("Короткое замыкание на источник бортовой сети (или обрыв) цепи управления регулятором холостого хода (РХХ)"); break;
+										case 0x1530: Error = wxT("Неисправность цепи управления реле муфты кондиционера"); break;
+										case 0x1541: Error = wxT("Обрыв цепи управления реле электробензонасоса"); break;
+										case 0x1545: Error = wxT("Положение дроссельной заслонки вне допустимого диапазона"); break;
+										case 0x1558: Error = wxT("Начальное положение дроссельной заслонки вне допустимого диапазона"); break;
+										case 0x1559: Error = wxT("Недостоверное значение массового расхода воздуха через дроссель"); break;
+										case 0x1564: Error = wxT("Нарушение адаптации дросселя в связи с пониженным напряжением питания"); break;
+										case 0x1570: Error = wxT("Нет ответа от автомобильной противоугонной системы (АПС) или обрыв цепи"); break;
+										case 0x1571: Error = wxT("Использован незарегистрированный электронный ключ"); break;
+										case 0x1572: Error = wxT("Обрыв цепи или неисправность приемопередающей антенны иммобилайзера"); break;
+										case 0x1573: Error = wxT("Внутренняя неисправность блока АПС (иммобилайзера)"); break;
+										case 0x1574: Error = wxT("Попытка разблокирования  АПС (иммобилайзера)"); break;
+										case 0x1575: Error = wxT("Доступ к  АПС (иммобилайзеру) заблокирован контроллером"); break;
+										case 0x1578: Error = wxT("Недостоверность результатов переобучения дроссельной заслонки"); break;
+										case 0x1579: Error = wxT("Аварийное прекращение адаптации привода дроссельной заслонки в связи с внешними условиями"); break;
+										case 0x1600: Error = wxT("Нет связи с автомобильной противоугонной системой (АПС) или обрыв цепи (иммобилайзером)"); break;
+										case 0x1601: Error = wxT("Нет связи с автомобильной противоугонной системой (АПС) или обрыв цепи (иммобилайзером)"); break;
+										case 0x1602: Error = wxT("Пропадание напряжение бортовой сети в контроллере"); break;
+										case 0x1603: Error = wxT("Неисправность энергонезависимой памяти (EEPROM) контроллера"); break;
+										case 0x1606: Error = wxT("Низкий уровень или неверный сигнал в цепи датчика неровной дороги"); break;
+										case 0x1607: Error = wxT("Высокий уровень сигнала в цепи датчика неровной дороги"); break;
+										case 0x1612: Error = wxT("Несанкционированный сброс контроллера в рабочем состоянии"); break;
+										case 0x1616: Error = wxT("Низкий уровень сигнала датчика неровной дороги"); break;
+										case 0x1617: Error = wxT("Высокий уровень сигнала датчика неровной дороги"); break;
+										case 0x1620: Error = wxT("Неисправность ПЗУ контроллера"); break;
+										case 0x1621: Error = wxT("Неисправность ОЗУ контроллера"); break;
+										case 0x1622: Error = wxT("Неисправность энергонезависимой памяти (EEPROM) контроллера"); break;
+										case 0x1632: Error = wxT("Неисправность канала № 1 управления электроприводом дроссельной заслонки"); break;
+										case 0x1633: Error = wxT("Неисправность канала № 2 управления электроприводом дроссельной заслонки"); break;
+										case 0x1634: Error = wxT("Неисправность электропривода дроссельной заслонки в стартовом положении"); break;
+										case 0x1635: Error = wxT("Неисправность электропривода дроссельной заслонки в закрытом положении"); break;
+										case 0x1636: Error = wxT("Неисправность электропривода дроссельной заслонки в обесточенном положении"); break;
+										case 0x1640: Error = wxT("Ошибка записи/чтения внутреннего флэш-ОЗУ (EEPROM) контроллера"); break;
+										case 0x1689: Error = wxT("Ошибочные значения кодов в памяти неисправностей контроллера"); break;
+										case 0x1750: Error = wxT("Короткое замыкание на Бортсеть цепи № 1 управления моментным регулятором холостого хода"); break;
+										case 0x1751: Error = wxT("Обрыв цепи № 1 управления моментным регулятором холостого хода"); break;
+										case 0x1752: Error = wxT("Короткое замыкание на Массу цепи № 1 управления моментным регулятором холостого хода"); break;
+										case 0x1753: Error = wxT("Короткое замыкание на Бортсеть цепи № 2 управления моментным регулятором холостого хода"); break;
+										case 0x1754: Error = wxT("Обрыв цепи № 2 управления моментным регулятором холостого хода"); break;
+										case 0x1755: Error = wxT("Короткое замыкание на Массу цепи № 2 управления моментным регулятором холостого хода"); break;
+										case 0x2100: Error = wxT("Обрыв цепи управления электроприводом дроссельной заслонки"); break;
+										case 0x2102: Error = wxT("Короткое замыкание на Массу цепи управления электроприводом дроссельной заслонки"); break;
+										case 0x2103: Error = wxT("Короткое замыкание на Бортсеть цепи управления электроприводом дроссельной заслонки"); break;
+										case 0x2104: Error = wxT("Ограничение электропривода дроссельной заслонки режимом холостого хода"); break;
+										case 0x2105: Error = wxT("Ограничение электропривода дроссельной заслонки блокированием работы двигателя"); break;
+										case 0x2106: Error = wxT("Ограничение мощности электропривода дроссельной заслонки или неисправность цепи"); break;
+										case 0x2110: Error = wxT("Ограничение электропривода дроссельной заслонки предельной частотой вращения двигателя"); break;
+										case 0x2111: Error = wxT("Ошибка управления электроприводом дросселя заслонки при открытии"); break;
+										case 0x2112: Error = wxT("Ошибка управления электроприводом дросселя заслонки при закрытии"); break;
+										case 0x2120: Error = wxT("Неисправность цепи датчика № 1 положения  педали ускорения"); break;
+										case 0x2122: Error = wxT("Низкий уровень сигнала в цепи датчика № 1 положения педали ускорения"); break;
+										case 0x2123: Error = wxT("Высокий уровень сигнала в цепи датчика № 1 положения педали ускорения"); break;
+										case 0x2127: Error = wxT("Низкий уровень сигнала в цепи датчика № 2 положения педали ускорения"); break;
+										case 0x2128: Error = wxT("Высокий уровень сигнала в цепи датчика № 2 положения педали ускорения"); break;
+										case 0x2135: Error = wxT("Несовпадение показаний датчиков № 1 и 2 положения дроссельной заслонки"); break;
+										case 0x2138: Error = wxT("Несовпадение показаний датчиков № 1 и 2 положения педали ускорения"); break;
+										case 0x2173: Error = wxT("Высокий расход воздуха при управлении дроссельной заслонкой"); break;
+										case 0x2175: Error = wxT("Низкий расход воздуха при управлении дроссельной заслонкой"); break;
+										case 0x2187: Error = wxT("Система топливоподачи дрейфует от средней к бедной области на холостом ходу"); break;
+										case 0x2188: Error = wxT("Система топливоподачи дрейфует от средней к богатой области на холостом ходу"); break;
+										case 0x2195: Error = wxT("Нет совпадения сигналов датчиков кислорода № 1 и № 2"); break;
+										case 0x2270: Error = wxT("Сигнал датчика кислорода № 2 находится в состоянии бедно"); break;
+										case 0x2271: Error = wxT("Сигнал датчика кислорода № 2 находится в состоянии богато"); break;
+										case 0x2299: Error = wxT("Несоответствие сигналов выключателей педали тормоза и датчиков положения педали ускорения"); break;
+										case 0x2301: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 1(1/4)"); break;
+										case 0x2303: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 2(2/3)"); break;
+										case 0x2304: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 2(2/3)"); break;
+										case 0x2305: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 3(2/3)"); break;
+										case 0x2307: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 3(2/3) или 4(1/4)"); break;
+										case 0x2310: Error = wxT("Короткое замыкание на Бортсеть цепи катушки зажигания 4"); break;
+										default: Error = wxT("Невідома помилка."); break;
 									}
 									m_textCtrlErrors->AppendText("P" + wxString::Format("%04X", errCode) + " - " + Error + "\n");
 									errEnable = TRUE;
@@ -2109,8 +2126,10 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 						}
 						if( m_notebook2->GetSelection() == 0 || m_notebook2->GetSelection() == 3 )
 						{
+							printf("Start tab 0\n");
 							if( inData[inDB] ==  0x61 && (inData[inDB + 1] == 0xE1 || inData[inDB + 1] == 1) )
 							{
+								printf("Good data\n");
 								int16_t var = 0;
 								inDB += 1;
 								for( int i = 1 ; i < 17 ; i++ )
@@ -2124,7 +2143,9 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 										var = (int16_t)(inData[inDB + paramAddr[carType][dataSet[carType][i]][1]] * 256 + inData[inDB + paramAddr[carType][dataSet[carType][i]][0]]);
 									}
 									data[i] = ((var + paramCoef[carType][dataSet[carType][i]][0]) * paramCoef[carType][dataSet[carType][i]][1]) / paramCoef[carType][dataSet[carType][i]][2] + paramCoef[carType][dataSet[carType][i]][3];
+									printf("data write\n");
 								}
+								printf("datashow\n");
 								DataShow();
 								int Err = 0;
 								for( int i = flags[carType][0] ; i <= flags[carType][1] ; i++ )
@@ -2138,14 +2159,90 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 								}
 							}
 						}
+						if( m_notebook2->GetSelection() == 2 )
+						{
+							printf("Start tab2\n");
+							if( (inData[inDB] == 0x61) && (inData[inDB + 1] == 0xE1 || inData[inDB + 1] == 3) )
+							{
+								int16_t Var = 0;
+								inDB += 1;
+								for( int i = 1 ; i <= analogAddr[carType][0][0] ; i++ )
+								{
+									if( analogAddr[carType][i][0] == analogAddr[carType][i][1] )
+									{
+										Var = (int16_t)(inData[inDB + analogAddr[carType][i][0]]);
+									}
+									else
+									{
+										Var = (int16_t)(inData[inDB + analogAddr[carType][i][1]] * 256 + inData[inDB + analogAddr[carType][i][0]]);
+									}
+									analog[i] = ((Var + analogCoef[carType][i][0]) * analogCoef[carType][i][1]) / analogCoef[carType][i][2] + analogCoef[carType][i][3];
+								}
+							}
+							printf("Analog show\n");
+							AnalogShow();
+						}
+						if( m_notebook2->GetSelection() == 4 )
+						{
+							if( inData[inDB] == 0x61 && (inData[inDB + 1] == 0xF3 || inData[inDB + 1] == 5) )
+							{
+								int64_t Var = 0;
+								inDB += 1;
+								for( int i = 1 ; i <= timerAddr[carType][0][0] ; i++ )
+								{
+									if( timerAddr[carType][i][0] == timerAddr[carType][i][1] )
+									{
+										Var = (int64_t)(inData[inDB + timerAddr[carType][i][0]]);
+									}
+									else
+									{
+										int k = -1;
+										int64_t m = 1;
+										if(timerAddr[carType][i][0] < timerAddr[carType][i][1])
+											k = 1;
+										Var = 0;
+										for( int j = 0 ; i <= (timerAddr[carType][i][1] - timerAddr[carType][i][0]) ; j++ )
+										{
+											Var += (int64_t)(inData[inDB + timerAddr[carType][i][0] + j * k] * m);
+											m *= 256;
+										}
+									}
+									timer[i] = ((Var + timerCoef[carType][i][0]) * timerCoef[carType][i][1]) / timerCoef[carType][i][2] + timerCoef[carType][i][3];
+								}
+								TimerShow();
+							}
+						}
+						if( m_notebook2->GetSelection() == 5 )
+						{
+							if( inData[inDB] == 90 )
+							{
+								wxString VIN = "";
+								for( int i = 2 ; i < b ; i++ )
+								{
+									if(inData[inDB + i] > 0)
+										VIN += wxString::Format("%c", inData[inDB + i]);
+								}
+								switch ((unsigned char)inData[inDB + 1])
+								{
+									case 0x90: m_staticTextID1->SetLabel(VIN); break;
+									case 0x91: m_staticTextID2->SetLabel(VIN); break;
+									case 0x92: m_staticTextID3->SetLabel(VIN); break;
+									case 0x94: m_staticTextID4->SetLabel(VIN); break;
+									case 0x97: m_staticTextID5->SetLabel(VIN); break;
+									case 0x98: m_staticTextID6->SetLabel(VIN); break;
+									case 0x99: m_staticTextID7->SetLabel(VIN); break;
+									case 0x9A: m_staticTextID8->SetLabel(VIN); break;
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 
-/*-----------------------------------------------------------------------------
- *  Transmit data
- *-----------------------------------------------------------------------------*/
+		/*-----------------------------------------------------------------------------
+		 *  Transmit data
+		 *-----------------------------------------------------------------------------*/
 		if( carType > 12 )
 		{
 			init = FALSE;
@@ -2278,14 +2375,14 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 							outData[3] = 0x1A;
 							switch (idZapros)
 							{
-								case 0: outData[4] = 0x90; break;
-								case 1: outData[4] = 0x91; break;
-								case 2: outData[4] = 0x92; break;
-								case 3: outData[4] = 0x94; break;
-								case 4: outData[4] = 0x97; break;
-								case 5: outData[4] = 0x98; break;
-								case 6: outData[4] = 0x99; break;
-								case 7: outData[4] = 0x9A; break;
+								case 0: outData[4] = 0x90; break; //Модель автомобіля
+								case 1: outData[4] = 0x91; break; //Заводський номер тестера
+								case 2: outData[4] = 0x92; break; //Код блока керування за позначенням поставщика
+								case 3: outData[4] = 0x94; break; //Код програмного забезпечення блока керування за позначенням поставщика
+								case 4: outData[4] = 0x97; break; //Умовна назва системи та тип двигуна
+								case 5: outData[4] = 0x98; break; //repairShopCode
+								case 6: outData[4] = 0x99; break; //Дата підготовки прошивки ПЗУ
+								case 7: outData[4] = 0x9A; break; //Ідентифікаційнц дані згідно позначення виробника
 							}
 							idZapros++;
 						}
@@ -2315,7 +2412,6 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 	}
 	m_timerWork.Start(timerPeriod, wxTIMER_ONE_SHOT);
 }
-
 void MyFrame::ScanPort(void)
 {
 	int n;
@@ -2469,193 +2565,193 @@ void MyFrame::DataShow()
 	wxString str;
 	switch((int)paramCoef[carType][dataSet[carType][1]][4])
 	{
-		case 1: str.Format("%1f", data[1]);
+		case 1: str.Printf("%1f", data[1]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[1]);
+		case 2: str.Printf("%2f", data[1]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[1]);
+		default: str.Printf("%f", data[1]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][2]][4])
 	{
-		case 1: str.Format("%1f", data[2]);
+		case 1: str.Printf("%1f", data[2]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[2]);
+		case 2: str.Printf("%2f", data[2]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[2]);
+		default: str.Printf("%f", data[2]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][3]][4])
 	{
-		case 1: str.Format("%1f", data[3]);
+		case 1: str.Printf("%1f", data[3]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[3]);
+		case 2: str.Printf("%2f", data[3]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[3]);
+		default: str.Printf("%f", data[3]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][4]][4])
 	{
-		case 1: str.Format("%1f", data[4]);
+		case 1: str.Printf("%1f", data[4]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[4]);
+		case 2: str.Printf("%2f", data[4]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[4]);
+		default: str.Printf("%f", data[4]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][5]][4])
 	{
-		case 1: str.Format("%1f", data[5]);
+		case 1: str.Printf("%1f", data[5]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[5]);
+		case 2: str.Printf("%2f", data[5]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[5]);
+		default: str.Printf("%f", data[5]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][6]][4])
 	{
-		case 1: str.Format("%1f", data[6]);
+		case 1: str.Printf("%1f", data[6]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[6]);
+		case 2: str.Printf("%2f", data[6]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[6]);
+		default: str.Printf("%f", data[6]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][7]][4])
 	{
-		case 1: str.Format("%1f", data[7]);
+		case 1: str.Printf("%1f", data[7]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[7]);
+		case 2: str.Printf("%2f", data[7]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[7]);
+		default: str.Printf("%f", data[7]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][8]][4])
 	{
-		case 1: str.Format("%1f", data[8]);
+		case 1: str.Printf("%1f", data[8]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[8]);
+		case 2: str.Printf("%2f", data[8]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[8]);
+		default: str.Printf("%f", data[8]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][9]][4])
 	{
-		case 1: str.Format("%1f", data[9]);
+		case 1: str.Printf("%1f", data[9]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[9]);
+		case 2: str.Printf("%2f", data[9]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[9]);
+		default: str.Printf("%f", data[9]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][10]][4])
 	{
-		case 1: str.Format("%1f", data[10]);
+		case 1: str.Printf("%1f", data[10]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[10]);
+		case 2: str.Printf("%2f", data[10]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[10]);
+		default: str.Printf("%f", data[10]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][11]][4])
 	{
-		case 1: str.Format("%1f", data[11]);
+		case 1: str.Printf("%1f", data[11]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[11]);
+		case 2: str.Printf("%2f", data[11]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[11]);
+		default: str.Printf("%f", data[11]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][12]][4])
 	{
-		case 1: str.Format("%1f", data[12]);
+		case 1: str.Printf("%1f", data[12]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[12]);
+		case 2: str.Printf("%2f", data[12]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[12]);
+		default: str.Printf("%f", data[12]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][13]][4])
 	{
-		case 1: str.Format("%1f", data[13]);
+		case 1: str.Printf("%1f", data[13]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[13]);
+		case 2: str.Printf("%2f", data[13]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[13]);
+		default: str.Printf("%f", data[13]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][14]][4])
 	{
-		case 1: str.Format("%1f", data[14]);
+		case 1: str.Printf("%1f", data[14]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[14]);
+		case 2: str.Printf("%2f", data[14]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[14]);
+		default: str.Printf("%f", data[14]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][15]][4])
 	{
-		case 1: str.Format("%1f", data[15]);
+		case 1: str.Printf("%1f", data[15]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[15]);
+		case 2: str.Printf("%2f", data[15]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[15]);
+		default: str.Printf("%f", data[15]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
 	switch((int)paramCoef[carType][dataSet[carType][16]][4])
 	{
-		case 1: str.Format("%1f", data[16]);
+		case 1: str.Printf("%1f", data[16]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		case 2: str.Format("%2f", data[16]);
+		case 2: str.Printf("%2f", data[16]);
 				m_staticText_Dat1->SetLabel(str);
 				break;
-		default: str.Format("%f", data[16]);
+		default: str.Printf("%f", data[16]);
 				 m_staticText_Dat1->SetLabel(str);
 				 break;
 	}
@@ -2668,13 +2764,13 @@ void MyFrame::TimerShow()
 	{
 		switch((int)timerCoef[carType][1][4])
 		{
-			case 1: str.Format("%1f", timer[1]);
+			case 1: str.Printf("%1f", timer[1]);
 					m_staticText_T1->SetLabel(str);
 					break;
-			case 2: str.Format("%2f", timer[1]);
+			case 2: str.Printf("%2f", timer[1]);
 					m_staticText_T1->SetLabel(str);
 					break;
-			default:str.Format("%f", timer[1]);
+			default:str.Printf("%f", timer[1]);
 					m_staticText_T1->SetLabel(str);
 					break;
 		}
@@ -2685,13 +2781,13 @@ void MyFrame::TimerShow()
 	{
 		switch((int)timerCoef[carType][2][4])
 		{
-			case 1: str.Format("%1f", timer[2]);
+			case 1: str.Printf("%1f", timer[2]);
 					m_staticText_T2->SetLabel(str);
 					break;
-			case 2: str.Format("%2f", timer[2]);
+			case 2: str.Printf("%2f", timer[2]);
 					m_staticText_T2->SetLabel(str);
 					break;
-			default:str.Format("%f", timer[2]);
+			default:str.Printf("%f", timer[2]);
 					m_staticText_T2->SetLabel(str);
 					break;
 		}
@@ -2702,44 +2798,44 @@ void MyFrame::TimerShow()
 	{
 		switch((int)timerCoef[carType][3][4])
 		{
-			case 1: str.Format("%1f", timer[3]);
+			case 1: str.Printf("%1f", timer[3]);
 					m_staticText_T3->SetLabel(str);
 					break;
-			case 2: str.Format("%2f", timer[3]);
+			case 2: str.Printf("%2f", timer[3]);
 					m_staticText_T3->SetLabel(str);
 					break;
-			default:str.Format("%f", timer[3]);
+			default:str.Printf("%f", timer[3]);
 					m_staticText_T3->SetLabel(str);
 					break;
 		}
 	}
 	else
 		m_staticText_T3->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 3){ str.Format("%f", timer[4]); m_staticText_T4->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 3){ str.Printf("%f", timer[4]); m_staticText_T4->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 4){ str.Format("%f", timer[5]); m_staticText_T5->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 4){ str.Printf("%f", timer[5]); m_staticText_T5->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 5){ str.Format("%f", timer[6]); m_staticText_T6->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 5){ str.Printf("%f", timer[6]); m_staticText_T6->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 6){ str.Format("%f", timer[7]); m_staticText_T7->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 6){ str.Printf("%f", timer[7]); m_staticText_T7->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 7){ str.Format("%f", timer[8]); m_staticText_T8->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 7){ str.Printf("%f", timer[8]); m_staticText_T8->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 8){ str.Format("%f", timer[9]); m_staticText_T9->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 8){ str.Printf("%f", timer[9]); m_staticText_T9->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 9){ str.Format("%f", timer[10]); m_staticText_T10->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 9){ str.Printf("%f", timer[10]); m_staticText_T10->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 10){ str.Format("%f", timer[11]); m_staticText_T11->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 10){ str.Printf("%f", timer[11]); m_staticText_T11->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 11){ str.Format("%f", timer[12]); m_staticText_T12->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 11){ str.Printf("%f", timer[12]); m_staticText_T12->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 12){ str.Format("%f", timer[13]); m_staticText_T13->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 12){ str.Printf("%f", timer[13]); m_staticText_T13->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 13){ str.Format("%f", timer[14]); m_staticText_T14->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 13){ str.Printf("%f", timer[14]); m_staticText_T14->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 14){ str.Format("%f", timer[15]); m_staticText_T15->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 14){ str.Printf("%f", timer[15]); m_staticText_T15->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
-	if(timerAddr[carType][0][0] > 15){ str.Format("%f", timer[16]); m_staticText_T16->SetLabel(str);}
+	if(timerAddr[carType][0][0] > 15){ str.Printf("%f", timer[16]); m_staticText_T16->SetLabel(str);}
 	else m_staticText_T4->SetLabel(wxT(""));
 }
 

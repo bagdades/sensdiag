@@ -29,6 +29,10 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_menuItemSaveFile = new wxMenuItem( m_menuLog, wxID_ANY, wxString( wxT("Save file") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menuLog->Append( m_menuItemSaveFile );
 	
+	wxMenuItem* m_menuItemClearLog;
+	m_menuItemClearLog = new wxMenuItem( m_menuLog, wxID_ANY, wxString( wxT("Clear Log") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuLog->Append( m_menuItemClearLog );
+	
 	m_menubar->Append( m_menuLog, wxT("Log") ); 
 	
 	m_menuHelp = new wxMenu();
@@ -839,6 +843,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	this->Connect( m_menuItemFileStart->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnStart ) );
 	this->Connect( m_menuItemFileExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnExit ) );
 	this->Connect( m_menuItemSaveFile->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnSaveLog ) );
+	this->Connect( m_menuItemClearLog->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnClearLog ) );
 	this->Connect( m_menuItemHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnAbout ) );
 	m_notebook2->Connect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( MyFrameBase::OnPageChange ), NULL, this );
 	m_buttonResetError->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrameBase::OnResetError ), NULL, this );
@@ -861,6 +866,7 @@ MyFrameBase::~MyFrameBase()
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnStart ) );
 	this->Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnExit ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnSaveLog ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnClearLog ) );
 	this->Disconnect( wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MyFrameBase::OnAbout ) );
 	m_notebook2->Disconnect( wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler( MyFrameBase::OnPageChange ), NULL, this );
 	m_buttonResetError->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrameBase::OnResetError ), NULL, this );
