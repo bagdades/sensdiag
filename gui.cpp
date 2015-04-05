@@ -63,7 +63,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat1->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat1 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat1 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat1->Wrap( -1 );
 	m_staticText_Dat1->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -73,7 +73,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat2->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat2 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat2 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat2->Wrap( -1 );
 	m_staticText_Dat2->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -83,7 +83,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat3->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat3 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat3 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat3->Wrap( -1 );
 	m_staticText_Dat3->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -93,7 +93,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat4->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat4 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat4 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat4->Wrap( -1 );
 	m_staticText_Dat4->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -103,7 +103,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat5->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat5 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat5 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat5->Wrap( -1 );
 	m_staticText_Dat5->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -113,7 +113,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat6->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat6, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat6 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat6 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat6->Wrap( -1 );
 	m_staticText_Dat6->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -133,7 +133,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat8->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat8, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat8 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat8 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat8->Wrap( -1 );
 	m_staticText_Dat8->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -143,7 +143,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat9->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat9, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat9 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat9 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat9->Wrap( -1 );
 	m_staticText_Dat9->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -153,7 +153,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat10->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat10 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat10 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat10->Wrap( -1 );
 	m_staticText_Dat10->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -163,7 +163,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat11->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat11, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat11 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat11 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat11->Wrap( -1 );
 	m_staticText_Dat11->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -173,7 +173,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat12->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat12, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat12 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat12 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat12->Wrap( -1 );
 	m_staticText_Dat12->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -183,7 +183,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat13->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat13, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat13 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat13 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat13->Wrap( -1 );
 	m_staticText_Dat13->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -193,7 +193,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat14->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat14, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat14 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat14 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat14->Wrap( -1 );
 	m_staticText_Dat14->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -203,7 +203,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat15->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat15, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat15 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat15 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat15->Wrap( -1 );
 	m_staticText_Dat15->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -213,7 +213,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextDat16->Wrap( -1 );
 	gSizer1->Add( m_staticTextDat16, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText_Dat16 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Dat16 = new wxStaticText( m_panelDiagnostic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_Dat16->Wrap( -1 );
 	m_staticText_Dat16->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -253,7 +253,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn1->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn1, 0, wxALL, 5 );
 	
-	m_staticText_An1 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An1 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An1->Wrap( -1 );
 	m_staticText_An1->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -263,7 +263,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn2->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn2, 0, wxALL, 5 );
 	
-	m_staticText_An2 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An2 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An2->Wrap( -1 );
 	m_staticText_An2->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -273,7 +273,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn3->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn3, 0, wxALL, 5 );
 	
-	m_staticText_An3 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An3 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An3->Wrap( -1 );
 	m_staticText_An3->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -283,7 +283,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn4->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn4, 0, wxALL, 5 );
 	
-	m_staticText_An4 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An4 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An4->Wrap( -1 );
 	m_staticText_An4->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -293,7 +293,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn5->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn5, 0, wxALL, 5 );
 	
-	m_staticText_An5 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An5 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An5->Wrap( -1 );
 	m_staticText_An5->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -303,7 +303,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn6->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn6, 0, wxALL, 5 );
 	
-	m_staticText_An6 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An6 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An6->Wrap( -1 );
 	m_staticText_An6->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -313,17 +313,17 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn7->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn7, 0, wxALL, 5 );
 	
-	m_staticTextA_n7 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextA_n7->Wrap( -1 );
-	m_staticTextA_n7->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
+	m_staticText_An7 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
+	m_staticText_An7->Wrap( -1 );
+	m_staticText_An7->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
-	gSizer2->Add( m_staticTextA_n7, 0, wxALL, 5 );
+	gSizer2->Add( m_staticText_An7, 0, wxALL, 5 );
 	
 	m_staticTextAn8 = new wxStaticText( m_panelADC, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextAn8->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn8, 0, wxALL, 5 );
 	
-	m_staticText_An8 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An8 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An8->Wrap( -1 );
 	m_staticText_An8->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -333,7 +333,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn9->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn9, 0, wxALL, 5 );
 	
-	m_staticText_An9 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An9 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An9->Wrap( -1 );
 	m_staticText_An9->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -343,7 +343,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn10->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn10, 0, wxALL, 5 );
 	
-	m_staticText_An10 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An10 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An10->Wrap( -1 );
 	m_staticText_An10->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -353,7 +353,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextAn11->Wrap( -1 );
 	gSizer2->Add( m_staticTextAn11, 0, wxALL, 5 );
 	
-	m_staticText_An11 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_An11 = new wxStaticText( m_panelADC, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_An11->Wrap( -1 );
 	m_staticText_An11->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -476,7 +476,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT1->Wrap( -1 );
 	gSizer3->Add( m_staticTextT1, 0, wxALL, 5 );
 	
-	m_staticText_T1 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T1 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T1->Wrap( -1 );
 	m_staticText_T1->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -486,7 +486,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT2->Wrap( -1 );
 	gSizer3->Add( m_staticTextT2, 0, wxALL, 5 );
 	
-	m_staticText_T2 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T2 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T2->Wrap( -1 );
 	m_staticText_T2->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -496,7 +496,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT3->Wrap( -1 );
 	gSizer3->Add( m_staticTextT3, 0, wxALL, 5 );
 	
-	m_staticText_T3 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T3 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T3->Wrap( -1 );
 	m_staticText_T3->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -506,7 +506,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT4->Wrap( -1 );
 	gSizer3->Add( m_staticTextT4, 0, wxALL, 5 );
 	
-	m_staticText_T4 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T4 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T4->Wrap( -1 );
 	m_staticText_T4->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -516,7 +516,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT5->Wrap( -1 );
 	gSizer3->Add( m_staticTextT5, 0, wxALL, 5 );
 	
-	m_staticText_T5 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T5 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T5->Wrap( -1 );
 	m_staticText_T5->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -526,7 +526,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT6->Wrap( -1 );
 	gSizer3->Add( m_staticTextT6, 0, wxALL, 5 );
 	
-	m_staticText_T6 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T6 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T6->Wrap( -1 );
 	m_staticText_T6->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -536,7 +536,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT7->Wrap( -1 );
 	gSizer3->Add( m_staticTextT7, 0, wxALL, 5 );
 	
-	m_staticText_T7 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T7 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T7->Wrap( -1 );
 	m_staticText_T7->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -546,7 +546,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT8->Wrap( -1 );
 	gSizer3->Add( m_staticTextT8, 0, wxALL, 5 );
 	
-	m_staticText_T8 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T8 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T8->Wrap( -1 );
 	m_staticText_T8->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -556,7 +556,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT9->Wrap( -1 );
 	gSizer3->Add( m_staticTextT9, 0, wxALL, 5 );
 	
-	m_staticText_T9 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T9 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T9->Wrap( -1 );
 	m_staticText_T9->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -566,7 +566,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT10->Wrap( -1 );
 	gSizer3->Add( m_staticTextT10, 0, wxALL, 5 );
 	
-	m_staticText_T10 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T10 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T10->Wrap( -1 );
 	m_staticText_T10->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -576,7 +576,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT11->Wrap( -1 );
 	gSizer3->Add( m_staticTextT11, 0, wxALL, 5 );
 	
-	m_staticText_T11 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T11 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T11->Wrap( -1 );
 	m_staticText_T11->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -586,7 +586,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT12->Wrap( -1 );
 	gSizer3->Add( m_staticTextT12, 0, wxALL, 5 );
 	
-	m_staticText_T12 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T12 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T12->Wrap( -1 );
 	m_staticText_T12->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -596,7 +596,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT13->Wrap( -1 );
 	gSizer3->Add( m_staticTextT13, 0, wxALL, 5 );
 	
-	m_staticText_T13 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T13 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T13->Wrap( -1 );
 	m_staticText_T13->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -606,7 +606,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT14->Wrap( -1 );
 	gSizer3->Add( m_staticTextT14, 0, wxALL, 5 );
 	
-	m_staticText_T14 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T14 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T14->Wrap( -1 );
 	m_staticText_T14->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -616,7 +616,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT15->Wrap( -1 );
 	gSizer3->Add( m_staticTextT15, 0, wxALL, 5 );
 	
-	m_staticText_T15 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T15 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T15->Wrap( -1 );
 	m_staticText_T15->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -626,7 +626,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticTextT16->Wrap( -1 );
 	gSizer3->Add( m_staticTextT16, 0, wxALL, 5 );
 	
-	m_staticText_T16 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_T16 = new wxStaticText( m_panelTimes, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	m_staticText_T16->Wrap( -1 );
 	m_staticText_T16->SetFont( wxFont( 12, 74, 90, 92, false, wxT("Sans") ) );
 	
@@ -647,65 +647,65 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	wxGridSizer* gSizer4;
 	gSizer4 = new wxGridSizer( 0, 2, 0, 30 );
 	
-	m_staticText60 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Ідентифікатор:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText60->Wrap( -1 );
-	gSizer4->Add( m_staticText60, 0, wxALL, 5 );
+	m_staticText67 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Модель автомобіля:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText67->Wrap( -1 );
+	gSizer4->Add( m_staticText67, 0, wxALL, 5 );
 	
 	m_staticTextID1 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID1->Wrap( -1 );
 	gSizer4->Add( m_staticTextID1, 0, wxALL, 5 );
 	
-	m_staticText61 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код запчастин:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText61->Wrap( -1 );
-	gSizer4->Add( m_staticText61, 0, wxALL, 5 );
+	m_staticText63 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Заводський номер:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText63->Wrap( -1 );
+	gSizer4->Add( m_staticText63, 0, wxALL, 5 );
 	
 	m_staticTextID2 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID2->Wrap( -1 );
 	gSizer4->Add( m_staticTextID2, 0, wxALL, 5 );
 	
-	m_staticText62 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код програми ЕБП:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText62->Wrap( -1 );
-	gSizer4->Add( m_staticText62, 0, wxALL, 5 );
+	m_staticText66 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код ЕБП:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText66->Wrap( -1 );
+	gSizer4->Add( m_staticText66, 0, wxALL, 5 );
 	
 	m_staticTextID3 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID3->Wrap( -1 );
 	gSizer4->Add( m_staticTextID3, 0, wxALL, 5 );
 	
-	m_staticText63 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Заводський номер:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText63->Wrap( -1 );
-	gSizer4->Add( m_staticText63, 0, wxALL, 5 );
+	m_staticText62 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код програми ЕБП:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText62->Wrap( -1 );
+	gSizer4->Add( m_staticText62, 0, wxALL, 5 );
 	
 	m_staticTextID4 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID4->Wrap( -1 );
 	gSizer4->Add( m_staticTextID4, 0, wxALL, 5 );
 	
-	m_staticText64 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Дата прошивки:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText64->Wrap( -1 );
-	gSizer4->Add( m_staticText64, 0, wxALL, 5 );
+	m_staticText65 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Назва системи:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText65->Wrap( -1 );
+	gSizer4->Add( m_staticText65, 0, wxALL, 5 );
 	
 	m_staticTextID5 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID5->Wrap( -1 );
 	gSizer4->Add( m_staticTextID5, 0, wxALL, 5 );
 	
-	m_staticText65 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Назва системи:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText65->Wrap( -1 );
-	gSizer4->Add( m_staticText65, 0, wxALL, 5 );
+	m_staticText61 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код запчастин:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText61->Wrap( -1 );
+	gSizer4->Add( m_staticText61, 0, wxALL, 5 );
 	
 	m_staticTextID6 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID6->Wrap( -1 );
 	gSizer4->Add( m_staticTextID6, 0, wxALL, 5 );
 	
-	m_staticText66 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Код ЕБП:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText66->Wrap( -1 );
-	gSizer4->Add( m_staticText66, 0, wxALL, 5 );
+	m_staticText64 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Дата прошивки:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText64->Wrap( -1 );
+	gSizer4->Add( m_staticText64, 0, wxALL, 5 );
 	
 	m_staticTextID7 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID7->Wrap( -1 );
 	gSizer4->Add( m_staticTextID7, 0, wxALL, 5 );
 	
-	m_staticText67 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Модель автомобіля:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText67->Wrap( -1 );
-	gSizer4->Add( m_staticText67, 0, wxALL, 5 );
+	m_staticText60 = new wxStaticText( m_panelIdentification, wxID_ANY, wxT("Ідентифікатор:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText60->Wrap( -1 );
+	gSizer4->Add( m_staticText60, 0, wxALL, 5 );
 	
 	m_staticTextID8 = new wxStaticText( m_panelIdentification, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticTextID8->Wrap( -1 );

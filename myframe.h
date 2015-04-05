@@ -53,7 +53,7 @@ class MyFrame : public MyFrameBase
 		int ioPort;
 		wxString paramName[16][31];
 		int paramAddr[16][31][2];
-		double data[17];
+		double dataCar[17];
 		double paramCoef[16][31][5];
 		int dataSet[16][17];
 		int dataGraph[17];
@@ -66,12 +66,12 @@ class MyFrame : public MyFrameBase
 		double analogCoef[16][31][5];
 		double timer[17];
 		double analog[17];
-		char* datBuf;
+		unsigned char* datBuf;
 		MyPort serialPort;
 		int timerPeriod;
 		int sysTimerPeriod;
-		char* outData;
-		char* inData;
+		unsigned char* outData;
+		unsigned char* inData;
 		int inDataCount;
 		int outDataCount;
 		int dataOkCount;
