@@ -1,0 +1,2 @@
+IncludeLocals:True
+UserLibraries:/usr/include/wx-3.0/types_c.taghl
