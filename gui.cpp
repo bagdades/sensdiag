@@ -761,7 +761,7 @@ MyFrameBase::MyFrameBase( wxWindow* parent, wxWindowID id, const wxString& title
 	sbSizer2->Add( m_buttonControlMinus, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
 	
 	
-	bSizer18->Add( sbSizer2, 0, wxEXPAND, 5 );
+	bSizer18->Add( sbSizer2, 0, wxEXPAND|wxRIGHT, 5 );
 	
 	
 	bSizer17->Add( bSizer18, 0, wxEXPAND|wxTOP, 5 );

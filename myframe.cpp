@@ -59,9 +59,9 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[1][6] = wxT("Бажане полож. РХХ");
 	paramName[1][7] = wxT("Поточне полож. РХХ");
 	paramName[1][8] = wxT("Корекція впорскування"); paramCoef[1][8][4] = 2;
-	paramName[1][9] = wxT("УОЗ (°пкв)"); paramCoef[1][9][4] = 1;
+	paramName[1][9] = wxT("КВЗ (°пкв)"); paramCoef[1][9][4] = 1;
 	paramName[1][10] = wxT("Швидкість (км/год)");
-	paramName[1][11] = wxT("Напруга БС (В)"); paramCoef[1][11][4] = 1;
+	paramName[1][11] = wxT("Напруга БМ (В)"); paramCoef[1][11][4] = 1;
 	paramName[1][12] = wxT("Бажані обер.ХХ(об/хв)");
 	paramName[1][13] = wxT("Паливоподача (мс)"); paramCoef[1][13][4] = 2;
 	paramName[1][14] = wxT("Розхід повітря (кг/год)"); paramCoef[1][14][4] = 2;
@@ -103,7 +103,7 @@ MyFrame::MyFrame( wxWindow* parent )
 	analogName[1][1] = wxT("Датчик детонації");
 	analogName[1][2] = wxT("Температура ОР");
 	analogName[1][3] = wxT("Датчик розх.пов.");
-	analogName[1][4] = wxT("Напруга БС");
+	analogName[1][4] = wxT("Напруга БМ");
 	analogName[1][5] = wxT("Потенціометер СО");
 	analogName[1][6] = wxT("Положення ДЗ");
 	analogAddr[1][0][0] = 6;
@@ -166,10 +166,10 @@ MyFrame::MyFrame( wxWindow* parent )
 	//---------- Микас 10.3 (28)-----------------------------------------------------------
 	paramName[3][1] = wxT("Оберти (об/хв)");
 	paramName[3][2] = wxT("Положення ДЗ (%)"); paramCoef[3][2][4] = 1;
-	paramName[3][3] = wxT("УОЗ (°пкв)"); paramCoef[3][3][4] = 1;
+	paramName[3][3] = wxT("КВЗ (°пкв)"); paramCoef[3][3][4] = 1;
 	paramName[3][4] = wxT("Паливоподача (мс)"); paramCoef[3][4][4] = 2;
 	paramName[3][5] = wxT("Тиск кол.(мм.рт.ст.)");
-	paramName[3][6] = wxT("Напруга БС (В)"); paramCoef[3][6][4] = 1;
+	paramName[3][6] = wxT("Напруга БМ (В)"); paramCoef[3][6][4] = 1;
 	paramName[3][7] = wxT("Напруга ДК (В)"); paramCoef[3][7][4] = 2;
 	paramName[3][8] = wxT("Коеф. L-регулятора"); paramCoef[3][8][4] = 2;
 	paramName[3][9] = wxT("Температура ОР (°C)");
@@ -178,7 +178,7 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[3][12] = wxT("Дин. добавка до пал."); paramCoef[3][12][4] = 2;
 	paramName[3][13] = wxT("Положення РХХ");
 	paramName[3][14] = wxT("Швидкість (км/год)");
-	paramName[3][15] = wxT("Поправка УОЗ по дет.(°пкв)"); paramCoef[3][15][4] = 1;
+	paramName[3][15] = wxT("Поправка КВЗ по дет.(°пкв)"); paramCoef[3][15][4] = 1;
 	paramName[3][16] = wxT("Коеф. пал. по Тож"); paramCoef[3][16][4] = 2;
 	paramName[3][17] = wxT("Коеф. пал. по Татм"); paramCoef[3][17][4] = 2;
 	paramName[3][18] = wxT("Коеф. пал. по Ратм"); paramCoef[3][18][4] = 2;
@@ -186,9 +186,9 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[3][20] = wxT("Добавка по напряж.(мс)"); paramCoef[3][20][4] = 2;
 	paramName[3][21] = wxT("Атм.тиск(мм.рт.ст.)");
 	paramName[3][22] = wxT("Баз. паливопод.ХХ(мс)"); paramCoef[3][22][4] = 2;
-	paramName[3][23] = wxT("Поправка УОЗ по Тож(°пкв)"); paramCoef[3][23][4] = 1;
+	paramName[3][23] = wxT("Поправка КВЗ по Тож(°пкв)"); paramCoef[3][23][4] = 1;
 	paramName[3][24] = wxT("Заданні обер. ХХ");
-	paramName[3][25] = wxT("УОЗ накоплен."); paramCoef[3][25][4] = 1;
+	paramName[3][25] = wxT("КВЗ накоплен."); paramCoef[3][25][4] = 1;
 	paramName[3][26] = wxT("Баз. паливоподача(мс)"); paramCoef[3][26][4] = 2;
 	paramName[3][27] = wxT("Годинний розхід (л/год)"); paramCoef[3][27][4] = 2;
 	paramName[3][28] = wxT("Шляховий розхід (л/100км)"); paramCoef[3][28][4] = 2;
@@ -327,7 +327,7 @@ MyFrame::MyFrame( wxWindow* parent )
 		analogCoef[4][i][3] = analogCoef[3][i][3];
 	}
 	analogAddr[4][0][0] = 11;
-	analogName[4][1] = wxT("Напруга БС");
+	analogName[4][1] = wxT("Напруга БМ");
 	analogName[4][2] = wxT("Температура пов..");
 	analogName[4][3] = wxT("Положення дросс.");
 	analogName[4][4] = wxT("Температура ОР");
@@ -378,8 +378,8 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[5][20] = wxT("Кор.неучт.підсосу"); paramCoef[5][20][4] = 2;
 	paramName[5][21] = wxT("Кор.форсунок по ДК1"); paramCoef[5][21][4] = 2;
 	paramName[5][22] = wxT("Режим роботи двиг.");
-	paramName[5][23] = wxT("УОЗ (°пкв)"); paramCoef[5][23][4] = 1;
-	paramName[5][24] = wxT("Кор.УОЗ на ХХ(°пкв)"); paramCoef[5][24][4] = 1;
+	paramName[5][23] = wxT("КВЗ (°пкв)"); paramCoef[5][23][4] = 1;
+	paramName[5][24] = wxT("Кор.КВЗ на ХХ(°пкв)"); paramCoef[5][24][4] = 1;
 	paramName[5][25] = wxT("Детонація"); paramCoef[5][25][4] = 2;
 	paramName[5][26] = wxT("Кількість помилок");
 	paramAddr[5][0][0] = 26;
@@ -538,13 +538,13 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[7][1] = wxT("Кіл.помилок");
 	paramName[7][2] = wxT("Температура ОР (°C)");
 	paramName[7][3] = wxT("Температура АТМ (°C)");
-	paramName[7][4] = wxT("Напруга БС (В)"); paramCoef[7][4][4] = 1;
+	paramName[7][4] = wxT("Напруга БМ (В)"); paramCoef[7][4][4] = 1;
 	paramName[7][5] = wxT("Швидкість (км/год)");
 	paramName[7][6] = wxT("Положення ДЗ (%)"); paramCoef[7][6][4] = 1;
 	paramName[7][7] = wxT("Оберти (об/хв)");
 	paramName[7][8] = wxT("Розхід повітря(кг/год)"); paramCoef[7][8][4] = 2;
-	paramName[7][9] = wxT("УОЗ (°пкв)"); paramCoef[7][9][4] = 1;
-	paramName[7][10] = wxT("Кор.УОЗ по детон.(°пкв)"); paramCoef[7][10][4] = 1;
+	paramName[7][9] = wxT("КВЗ (°пкв)"); paramCoef[7][9][4] = 1;
+	paramName[7][10] = wxT("Кор.КВЗ по детон.(°пкв)"); paramCoef[7][10][4] = 1;
 	paramName[7][11] = wxT("Параметр нагруз.(%)");
 	paramName[7][12] = wxT("Паливоподача (мс)"); paramCoef[7][12][4] = 2;
 	paramName[7][13] = wxT("Бажані обер.ХХ(об/хв)");
@@ -732,7 +732,7 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[10][3] = wxT("Нерівн.обер.на ХХ(об/м)"); paramCoef[10][3][4] = 1;
 	paramName[10][4] = wxT("Температура ОР (°C)"); paramCoef[10][4][4] = 1;
 	paramName[10][5] = wxT("Температура АТМ (°C)"); paramCoef[10][5][4] = 1;
-	paramName[10][6] = wxT("УОЗ (°пкв)"); paramCoef[10][6][4] = 1;
+	paramName[10][6] = wxT("КВЗ (°пкв)"); paramCoef[10][6][4] = 1;
 	paramName[10][7] = wxT("Час нак.запал.(мс)");
 	paramName[10][8] = wxT("Розхід повітря(кг/год)"); paramCoef[10][8][4] = 1;
 	paramName[10][9] = wxT("Підсос повітря(кг/год)"); paramCoef[10][9][4] = 1;
@@ -745,9 +745,9 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[10][16] = wxT("Баж.склад суміші"); paramCoef[10][16][4] = 1;
 	paramName[10][17] = wxT("Кор.суміші по ДК1"); paramCoef[10][17][4] = 1;
 	paramName[10][18] = wxT("Відкр.клап.адсор(%)"); paramCoef[10][18][4] = 1;
-	paramName[10][19] = wxT("Напруга БС (В)"); paramCoef[10][19][4] = 1;
+	paramName[10][19] = wxT("Напруга БМ (В)"); paramCoef[10][19][4] = 1;
 	paramName[10][20] = wxT("Швидкість (км/год)");
-	paramName[10][21] = wxT("Кор.УОЗ по детон.(°пкв)"); paramCoef[10][21][4] = 1;
+	paramName[10][21] = wxT("Кор.КВЗ по детон.(°пкв)"); paramCoef[10][21][4] = 1;
 	paramName[10][22] = wxT("Напруга ДК1 (В)"); paramCoef[10][22][4] = 2;
 	paramName[10][23] = wxT("Напруга ДК2 (В)"); paramCoef[10][23][4] = 2;
 	paramName[10][24] = wxT("Період сигн.ДК1"); paramCoef[10][24][4] = 2;
@@ -827,8 +827,8 @@ MyFrame::MyFrame( wxWindow* parent )
 	timerName[10][10] = wxT("Ліч.невик.форсун.>50т.км.");
 	timerName[10][11] = wxT("Ліч.перевищ.проп.восп.<50т.км.");
 	timerName[10][12] = wxT("Ліч.перевищ.проп.восп.>50т.км.");
-	timerName[10][13] = wxT("Ліч.перенапр.БС<50т.км.");
-	timerName[10][14] = wxT("Ліч.перенапр.БС>50т.км.");
+	timerName[10][13] = wxT("Ліч.перенапр.БМ<50т.км.");
+	timerName[10][14] = wxT("Ліч.перенапр.БМ>50т.км.");
 	timerName[10][15] = wxT("Запис серв.дан.акив.>200т.км.");
 	timerAddr[10][1][0] = 4; timerAddr[10][1][1] = 1;
 	timerAddr[10][2][0] = 7; timerAddr[10][2][1] = 7;
@@ -852,8 +852,8 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[11][2] = wxT("Бажані обер.ХХ(об/хв)");
 	paramName[11][3] = wxT("Оберти на ХХ(об/хв)");
 	paramName[11][4] = wxT("Температура ОР (°C)");
-	paramName[11][5] = wxT("УОЗ (°пкв)"); paramCoef[11][5][4] = 1;
-	paramName[11][6] = wxT("кор.УОЗ по детон.(°пкв)"); paramCoef[11][6][4] = 1;
+	paramName[11][5] = wxT("КВЗ (°пкв)"); paramCoef[11][5][4] = 1;
+	paramName[11][6] = wxT("кор.КВЗ по детон.(°пкв)"); paramCoef[11][6][4] = 1;
 	paramName[11][7] = wxT("Адапт.розх.пов..на ХХ");
 	paramName[11][8] = wxT("Баж.розх.пов..на ХХ(к/ч)"); paramCoef[11][8][4] = 1;
 	paramName[11][9] = wxT("Розхід повітря(кг/год)"); paramCoef[11][9][4] = 1;
@@ -868,7 +868,7 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[11][18] = wxT("Відкр.клап.адсор(%)"); paramCoef[11][18][4] = 1;
 	paramName[11][19] = wxT("Положення РХХ");
 	paramName[11][20] = wxT("Парам.нагруз.двиг."); paramCoef[11][20][4] = 2;
-	paramName[11][21] = wxT("Напруга БС (В)"); paramCoef[11][21][4] = 1;
+	paramName[11][21] = wxT("Напруга БМ (В)"); paramCoef[11][21][4] = 1;
 	paramName[11][22] = wxT("Швидкість (км/год)");
 
 	paramAddr[11][0][0] = 22;
@@ -942,8 +942,8 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[13][5] = wxT("Оберти (об/хв)");
 	paramName[13][6] = wxT("Напруга ДК1 (В)"); paramCoef[13][6][4] = 2;
 	paramName[13][7] = wxT("Швидкість (км/год)");
-	paramName[13][8] = wxT("Напруга БС (В)"); paramCoef[13][8][4] = 1;
-	paramName[13][9] = wxT("УОЗ (°пкв)"); paramCoef[13][9][4] = 1;
+	paramName[13][8] = wxT("Напруга БМ (В)"); paramCoef[13][8][4] = 1;
+	paramName[13][9] = wxT("КВЗ (°пкв)"); paramCoef[13][9][4] = 1;
 	paramName[13][10] = wxT("Полож.РХХ Бажане");
 	paramName[13][11] = wxT("Полож.РХХ реальне");
 	paramName[13][12] = wxT("Баж.обер.ХХ(об/хв)");
@@ -1000,9 +1000,9 @@ MyFrame::MyFrame( wxWindow* parent )
 	paramName[14][9] = wxT("A/C тиск (кП)");
 	paramName[14][10] = wxT("Time ref.");
 	paramName[14][11] = wxT("Charge temperature"); paramCoef[14][11][4] = 1;
-	paramName[14][17] = wxT("Напруга БС (В)"); paramCoef[14][17][4] = 1;
+	paramName[14][17] = wxT("Напруга БМ (В)"); paramCoef[14][17][4] = 1;
 	paramName[14][13] = wxT("Напруга СО (В)"); paramCoef[14][13][4] = 2;
-	paramName[14][20] = wxT("УОЗ (°пкв)"); paramCoef[14][20][4] = 1;
+	paramName[14][20] = wxT("КВЗ (°пкв)"); paramCoef[14][20][4] = 1;
 	paramName[14][15] = wxT("Полож.РХХ бажане");
 	paramName[14][16] = wxT("Полож.РХХ реальне");
 	paramName[14][12] = wxT("Баж.обер.ХХ(об/хв)");
@@ -2371,7 +2371,7 @@ void MyFrame::OnTimerTick( wxTimerEvent& event )
 					{
 						if( idZapros < 8 )
 						{
-							outData[3] = 0x1A;
+							outData[3] = 0x1A; //readEcuIdentification
 							switch (idZapros)
 							{
 								case 0: outData[4] = 0x90; break; //Модель автомобіля
